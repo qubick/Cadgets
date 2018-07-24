@@ -2,7 +2,7 @@
 <html lang="en">
 		<head>
 				<meta charset="utf-8">
-				<title>Kinemaker</title>
+				<title>Softness Design UI</title>
 
 
 				<!-- p5.js for UI elements -->
@@ -22,28 +22,16 @@
 		</head>
 
 		<style>
-					#container {
-						position:relative;
-						left:150px;
-					}
 					#gallery {
 						position:fixed;
-						width:150px;
+						width:200px;
 						height: 100%;
 						top:0;
 						left:0;
-						background-color: white;
+						/* background-color: white; */
+						opacity: 1;
 						/*overflow: auto;*/
     				overflow-y: scroll !important;
-					}
-					#bbox_shape {
-						position: fixed;
-						top: 0;
-						right: 0;
-						width: 300px;
-						height: 100px;
-						background-color: grey;
-						display: none;
 					}
 					#loadSTL {
 						position: fixed;
@@ -54,43 +42,8 @@
 						background-color: grey;
 						display: none;
 					}
-					#model_rotation {
-						position: fixed;
-						top: 170px;
-						right: 0;
-						width: 300px;
-						height: 100px;
-						background-color: grey;
-						display: none;
-					}
-					#drop_zone {
-						border: 0px solid blue;
-						background-color: gray;
-						position:fixed;
-						width:400px;
-						height:200px;
-						top:0;
-						left:50px;
-					}
-					.box__dragndrop,
-					.box__uploading,
-					.box__success,
-					.box__error {
-					  display: none;
-					}
-					.draggable {
-						width:150px;
-					}
-
-					.btn {
-				    background-color: #555555; /* Green */
-				    border: none;
-				    color: white;
-				    padding: 5px 10px;
-				    text-align: center;
-				    text-decoration: none;
-				    display: inline-block;
-				    font-size: 14px;
+					.draggable{
+						width: 150px
 					}
 				</style>
 
@@ -104,55 +57,133 @@
 				<script src="./js/loaders/MTLLoader.js"></script>
 				<script src="./js/loaders/OBJLoader.js"></script>
 				<script src="./js/loaders/STLLoader.js"></script>
-
 				<script src="./js/Detector.js"></script>
-
 				<script src="./js/controls/OrbitControls.js"></script>
 				<script src="./js/libs/dat.gui.min.js"></script>
 				<script src="./js/libs/stats.min.js"></script>
-
 				<script src="./js/controls/DragControls.js"></script>
 				<script src="./js/controls/TrackballControls.js"></script>
 
 
 				<script src="eventHandler.js"></script>
-				<script src="./gears/gear_units.js"></script>
-				<script src="./stl_loader.js"></script>
 				<script src="./paramUI.js"></script>
 				<script src="./editor.js"></script>
 
-				<!-- #gearbox gallery -->
-				<div id="gallery" onclick="returnGearSelected(event)">
-					<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	  			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
 
-					<div>
-						<img src="assets/jumper.png" name="1" class="draggable"/>
-					</div>
-					<div>
-						<img src="assets/swing.png" name="2" class="draggable"/>
-					</div>
-					<div>
-						<img src="assets/bevel.png" name="3" class="draggable"/>
-					</div>
-					<div>
-						<img src="assets/cam.png" name="4" class="draggable"/>
-					</div>
-					<div>
-						<img src="assets/dcam.png" name="5" class="draggable"/>
-					</div>
-					<div>
-						<img src="assets/friction-gear.png" name="6" class="draggable"/>
-					</div>
-					<div>
-						<img src="assets/pulley.png" name="7" class="draggable"/>
-					</div>
-					<div>
-						<img src="assets/slider.png" name="8" class="draggable"/>
-					</div>
+				<!-- #gearbox gallery -->
+				<div id="gallery">
+
+					<br/><br/><br/>
+					<input id="fileInput" type="file" name="files[]" onclick="handleFileSelect"/>
+
+					<br/><br/>
+					<select onchange="ReturnDesiredInteraction(event)">
+							<option value="0">Select Interaction</option>
+							<option value="1">Foot Press</option>
+					    <option value="2">Finger Press</option>
+					    <option value="3">Sit</option>
+					    <option value="4">Palm Grasp</option>
+					    <option value="5">Finger Squeeze</option>
+					</select>
+
+					<br/><br/>
+					<select onchange="ReturnReferenceMaterial(event)">
+							<option value="0">Select Softness Material</option>
+							<option value="25">Rubber band</option>
+					    <option value="15">Art eraser</option>
+					    <option value="20">Mouse pad</option>
+					    <option value="35">Vinyl toys</option>
+					    <option value="40">Pencil tip eraser</option>
+					</select>
+
+					<div id="sliderlocation"></div>
+
+					<br/><br/>
+					<select onchange="ReturnRegionSelection(event)">
+							<option value="0">Select Region</option>
+							<option value="1">By Sphere volume</option>
+							<option value="2">By Cube volume</option>
+							<option value="3">By Slicing in plane</option>
+					</select>
+
+					<br/><br/>
+					<select onchange="ReturnTypeofGradient(event)">
+							<option value="0">Select Gradient Type</option>
+							<option value="1">Binary</option>
+					    <option value="2">Linear</option>
+					    <option value="3">Radial</option>
+					</select>
+
+					<div id="gradientlocation"></div>
 			</div>
 
 			<script type="text/javascript">
+
+			function ReturnReferenceMaterial(evt){
+
+					var shoreAScale = evt.target.value;
+					var input = document.createElement("input");
+
+					input.type = "range"
+					input.min = "10";
+					input.max = "50";
+					input.value = shoreAScale;
+					input.class = "slider"
+					input.id = "softnessRange"
+					input.onChange = "updateValue(this.value)"
+
+					var textInput = document.createElement("text");
+					textInput.value = '<br/> Shore A scale: ' + shoreAScale;
+					textInput.id = "shoreAScaleValue"
+
+					document.getElementById('sliderlocation').appendChild(document.createElement("br"));
+					document.getElementById('sliderlocation').innerHTML = '<br/> Shore A scale: ' + shoreAScale;
+					document.getElementById('sliderlocation').appendChild(input);
+
+			}
+
+			function ReturnTypeofGradient(evt){
+				//change gradient type
+				var regtionSelection = parseInt(evt.target.value);
+
+				var newmaterial = new THREE.MeshNormalMaterial({opacity:0.3 });
+
+				// var gradmaterial = new THREE.MeshBasicMaterial( { map: texture, transparent: true } );
+				// var gradientmaterial = generateGradientShaderMaterial(512);
+
+
+				var selectObject= scene.getObjectByName("regionVolume");
+				selectObject.material = newmaterial;
+
+
+				var gradientInput = document.createElement("input");
+
+				gradientInput.type = "range"
+				gradientInput.min = "10";
+				gradientInput.max = "50";
+				gradientInput.value = "25";
+				gradientInput.class = "slider"
+				gradientInput.id = "gradientRange"
+				// gradientInput.onChange = "updateValue(this.value)"
+
+				document.getElementById('sliderlocation').innerHTML = '<br/> Gradient stops: ';
+				document.getElementById('gradientlocation').appendChild(gradientInput);
+
+			}
+
+			function generateGradientShaderMaterial( _resolution ) {
+				var resolution = _resolution || 2; // 512
+				//-
+				var material = new THREE.ShaderMaterial( {
+					uniforms: uniforms,
+					vertexShader: document.getElementById( 'vertexShader' ).textContent,
+					fragmentShader: document.getElementById( 'fragment_shader1' ).textContent
+				} );
+				//-
+				return material;
+			}
+
+
 			$( function() {
 				$( ".draggable" ).draggable({
 					helper: 'clone',
@@ -169,41 +200,12 @@
 					}
 				});
 			});
+
+			document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
+
 			</script>
 
-			<!-- file saver -->
-			<!-- <script src="./js/minjs/FileSaver.min.js"></script>
-			<script src="./drop_handler.js"></script>
-			<div id="drop_zone" ondrop="drop_handler(event);" ondragover="dragover_handler(event);">
-			  <strong>Drag one or more files to this Drop Zone ...</strong>
-			</div> -->
+			<input id="fileInput" type="file" name="files[]" style="visibility:hidden" />
 
-
-			<!-- menu -->
-			<!-- <div id="bbox_shape">
-				Bounding Box Shape <br/>
-				<div align="center" valign="center">
-					<img src="assets/cube.png" width="70px" height="70px">
-					<img src="assets/sphere.png" width="70px" height="70px">
-					<img src="assets/cylinder.png" width="70px" height="70px">
-				</div>
-			</div> -->
-
-			<!-- <div id="loadSTL">
-				Load a Host Model <br/>
-				<button type="button" id="stl" onchange="browseSTL()" class="btn">Load STL</button>
-				<button type="button" id="craftml" onchange="browseCraftML()" class="btn">Search CraftML</button>
-			<div> -->
-
-			<!-- <div id="model_rotation">
-				Host Model rotation <br/>
-				<div>
-					X: <input type="range" min="0" max="360" step="1" value="0" width="280px"> <br/>
-					Y: <input type="range" min="0" max="360" step="1" value="0" data-orientation="vertical" width="280px"> <br/>
-					Z: <input type="range" min="0" max="360" step="1" value="0" data-orientation="vertical" width="280px">
-				</div>
-			</div> -->
-
-			<input id="myInput" type="file" style="visibility:hidden" />
 		</body>
 </html>

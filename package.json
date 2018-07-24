@@ -59,6 +59,8 @@
     "electron": "^1.6.1"
   },
   "dependencies": {
+    "express": "^4.16.3",
+    "nodemon": "^1.18.3",
     "react-dropzone": "^4.0.0"
   }
 }

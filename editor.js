@@ -112,341 +112,95 @@ function onWindowResize() {
   renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
-function returnGearSelected(event){
+function ReturnDesiredInteraction(event){
 
-  selectedGear = event.target.name;
-  console.log("selected Gear: ", selectedGear);
-  loadGearBox(parseInt(selectedGear));
+  selectedInterAction = parseInt(event.target.value);
+  console.log("selected Action: ", selectedInterAction);
+  LoadDesiredInteraction(parseInt(selectedInterAction));
 
-  showDiv();
+  // showDiv();
 }
 
-function loadGearBox(gearType) {
-  // add gears
-  console.log("curr gearType: ", gearType);
-  var material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } );
+function LoadDesiredInteraction(selectedInterAction) {
 
-  if(gearType < 3 ){ // 1 or 2
+  var material = new THREE.MeshPhongMaterial( { color: 0xA9A9A9, specular: 0x111111, shininess: 200, opacity:0.3 } );
+  material.transparent = true
+  var targetPath, targetGeometry; //foot, finger, body, palm;
 
-    gearsElement = new Gears(2, gearType);
-
-    gearsElement.box.add(gearsElement.left); //to group move by drag
-    gearsElement.box.add(gearsElement.right);
-
-    gearsElement.powerType = (gearType === 1 ) ? 'rotary' : 'halfrotary';
-
-    if(gears[0]){
-      gearsElement.left.rotation.x = gears[gearIdx-1].right.rotation.x;
-      gearsElement.right.rotation.x = gears[gearIdx-1].right.rotation.x;
-    }
-    addLRScalePanel();
-
-  }
-  else if((gearType > 2 ) || (gearType < 9)){
-
-    gearsElement = new Gears(3, gearType);
-
-    gearsElement.box.add(gearsElement.top); //to group move by drag
-    gearsElement.box.add(gearsElement.left);
-    gearsElement.box.add(gearsElement.right);
-    gearsElement.box.add(gearsElement.lshaft);
-    gearsElement.box.add(gearsElement.rshaft);
-    gearsElement.box.add(gearsElement.tshaft);
-
-    gearsElement.powerType = (gearType === (7 || 8)) ? 'linear' : 'rotary';
-
-    if(gears[0]){
-      gearsElement.left.rotation.x = gears[gearIdx-1].right.rotation.x;
-      gearsElement.right.rotation.x = gears[gearIdx-1].right.rotation.x;
-    }
-
-    addLRScalePanel();
-    addTopScalePanel(); //add top bounding box UI
-  }
-
-  //add gear dependent mechanism
-  switch(gearType){//gearType){
-
-    case 1: //jumper
-    case 2: //swing
-      //if(UI for top part is created)
-      //  removePanel()
-    break;
-
-    case 3: //bevel
-      loader.load( './assets/bevel.stl', ( geometry ) => {
-
-        var lgear = new THREE.Mesh( geometry, material );
-        lgear.rotateY(Math.PI/2);
-        lgear.position.set(-15,0,0);
-        gearsElement.leftGear = lgear;
-        gearsElement.box.add(gearsElement.leftGear); // to drag as a group
-
-        var tgear = lgear.clone();
-        tgear.rotateX(Math.PI/2);
-        tgear.position.set(0,15,0);
-        gearsElement.topGear = tgear;
-        gearsElement.box.add(gearsElement.topGear);
-      });
-    break;
-
-    case 4: //cam
-      var diskGeometry = new THREE.CylinderGeometry( 10, 10, 7, 50 );
-      var disk = new THREE.Mesh( diskGeometry, material);
-
-      disk.rotateZ(Math.PI/2);
-      disk.scale.set(1, 1, 1.6);
-      // disk.position.set(0,100,0);
-      gearsElement.cam = disk;
-      gearsElement.box.add(gearsElement.cam);
-    break;
-
-    case 5: //dcam
-      var diskGeometry = new THREE.CylinderGeometry( 10, 10, 7, 50 );
-      var disk1 = new THREE.Mesh( diskGeometry, material);
-      disk2 = disk1.clone();
-
-      disk1.rotateZ(Math.PI/2);
-      disk1.scale.set(1, 1, 1.3);
-      disk1.position.set(-10, 10, 0);
-
-      disk2.rotateZ(Math.PI/2);
-      disk2.scale.set(1, 1, 1.3);
-      disk2.position.set(10, -10, 0);
-
-      gearsElement.cam1 = disk1;
-      gearsElement.cam2 = disk2;
-
-      gearsElement.box.add(gearsElement.cam1);
-      gearsElement.box.add(gearsElement.cam2);
-    break;
-
-    case 6: //crank
-      loader.load( './assets/bevel.stl', ( geometry ) => {
-
-        var lgear = new THREE.Mesh( geometry, material );
-        lgear.rotateY(Math.PI/2);
-        lgear.position.set(-15, 0, 0);
-        gearsElement.leftGear = lgear;
-        gearsElement.box.add(gearsElement.leftGear); // to drag as a group
-
-        var rgear = lgear.clone();
-        rgear.rotateY(Math.PI);
-        rgear.position.set(15, 0, 0);
-        gearsElement.rightGear = rgear;
-        gearsElement.box.add(gearsElement.rightGear);
-
-        var tgear = lgear.clone();
-        tgear.rotateX(Math.PI/2);
-        tgear.position.set(0,15,0);
-        gearsElement.topGear = tgear;
-        gearsElement.box.add(gearsElement.topGear);
-      });
-
-      latestGearRotation = -1; //negative
-      rotationChangedId = gearIdx;
-    break;
-
-    case 7: //pulley
-    case 8: //slider
-    break;
-
-    case 9: //double_friction
-      gearsElement = new Gears(5);
-    break;
-
+  switch(selectedInterAction){
+    case 1: //footpress
+      targetPath = './assets/left_foot.stl'
+      break;
+    case 2: //finger pres
+      break;
+    case 3: //sit
+      console.log("sit pose")
+      targetPath = './assets/sittingman.stl'
+      break;
+    case 4: //grash by palm
+      targetPath = './assets/palm.stl'
+      break;
+    case 5: //squeeze by finger
     default:
-      console.log("in switch case")
-  } //end of switch
+  }
 
-  gearsElement.gearType = gearType;
-  gearsElement.box.position.x += 160 * gearIdx;
-  gears[gearIdx] = gearsElement;
-  gearIdx++;
+  console.log(targetPath)
+  loader.load( targetPath, ( geometry ) => {
+    geometry.center()
 
-  scene.add(gearsElement.box);
-  objects.push(gearsElement.box);
+    targetGeometry = new THREE.Mesh( geometry, material );
+    targetGeometry.rotation.set(-Math.PI/2, 0, Math.PI);
+    
+    if(selectedInterAction == 3){
+      targetGeometry.scale.set(50,50,50);
+      // targetGeometry.rotation.set(-Math.PI/2, 0, 0);
+    }
+    scene.add(targetGeometry);
+    objects.push(targetGeometry);
+  })
 
 }
 
-// tentative function to load animation
-function loadAndroid(){
-  var material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } );
+function ReturnRegionSelection(evt) {
 
-  loader.load('./assets/android-body.stl', (geometry) => {
-    body = new THREE.Mesh(geometry, material);
-    body.rotation.set( - Math.PI / 2, 0, 0 );
-    body.scale.set(6.8, 6.8, 6.8);
-    body.position.set(0,-65,0);
-    scene.add(body)
-  });
+    var caseValue = parseInt(evt.target.value)
+    var material = new THREE.MeshBasicMaterial( { color: 0xffffff, opacity: 1, wireframe: true } );
+    switch (caseValue) {
+      case 1: //sphere
 
-  loader.load('./assets/arm.stl', (geometry) => {
-    arm1 = new THREE.Mesh(geometry, material);
-    arm2 = new THREE.Mesh(geometry, material);
+        var geometry = new THREE.SphereGeometry(50, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2);
+        var cube = new THREE.Mesh(geometry, material);
+        // scene.add( sphere );
+        break;
+      case 2: //cube
+        var geometry = new THREE.BoxGeometry( 50, 50, 50 );
+        // var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+        var cube = new THREE.Mesh( geometry, material );
+        break;
 
-    arm1.rotation.set( - Math.PI / 2, 0, 0 );
-    arm1.scale.set(6.8, 6.8, 6.8);
-    arm1.position.set(-40,0,0);
+      case 3: //level
 
-    arm2.rotation.set( - Math.PI / 2, 0, 0 );
-    arm2.scale.set(6.8, 6.8, 6.8);
-    arm2.position.set(40,0,0);
-    scene.add(arm1)
-    scene.add(arm2)
-  });
+        break;
+      default:
 
-  loader.load('./assets/head.stl', (geometry) => {
-    head = new THREE.Mesh(geometry, material);
+    }
+    cube.name = "regionVolume";
 
-    head.rotation.set( - Math.PI / 2, 0, 0 );
-    head.scale.set(6.8, 6.8, 6.8);
-    head.position.set(0,35,0);
-    scene.add(head)
-  });
+    scene.add(cube);
+    objects.push(cube);
+
+}
+
+
+function removeEntity(object){
+  var selectObject= scene.getObjectByName(object.name);
+  scene.remove( selectObject );
+
+  animate();
 }
 
 function animate() {
   requestAnimationFrame( animate );
-
-  gears.forEach((gear, i) =>{
-    switch(gear.gearType){// gearType){
-      case 1: //jumper
-        var rotationDirection = 0.01;
-
-        if((latestGearRotation === -1) && (i > rotationChangedId))
-          rotationDirection *= -1;
-
-        gear.left.rotation.x += rotationDirection;
-        gear.right.rotation.x += rotationDirection;
-      break;
-
-      case 2: //swing
-        var rotAngle = gear.left.rotation.x;
-        if((rotAngle < 0) || (rotAngle > 180 * Math.PI/180)){
-          swingDelta *= -1;
-        }
-        if((latestGearRotation === -1) && (i > rotationChangedId))
-          swingDelta *= -1;
-
-        gear.left.rotation.x += swingDelta;
-        gear.right.rotation.x += swingDelta;
-      break;
-
-      case 3: //bevel gear
-        var rotationDirection = 0.01;
-
-        if((latestGearRotation === -1) && (i > rotationChangedId))
-          rotationDirection *= -1;
-
-        gear.top.rotation.y += rotationDirection;
-        gear.topGear.rotation.z -= rotationDirection;
-        gear.left.rotation.x += rotationDirection;
-        gear.leftGear.rotation.x += rotationDirection;
-        gear.right.rotation.x += rotationDirection;
-
-        if(body){
-
-          head.rotation.z += rotationDirection;
-          arm1.rotation.x += rotationDirection;
-          arm2.rotation.x += rotationDirection;
-        }
-
-      break;
-
-      case 4: //crank
-        var topPos = gear.top.position.y;
-        if((topPos > gear.box.position.y + 75) || (topPos < gear.box.position.y + 60)) //original pos+=50, w/2=25
-          crankDelta *= -1;
-
-        var rotationDirection = 0.01;
-        if((latestGearRotation === -1) && (i > rotationChangedId))
-          rotationDirection *= -1;
-
-        gear.top.position.y += crankDelta; //should be updown
-        gear.tshaft.position.y += crankDelta;
-        gear.left.rotation.x += rotationDirection;
-        gear.right.rotation.x += rotationDirection;
-        gear.cam.rotation.x += rotationDirection;
-
-        if(body){
-          head.position.y += crankDelta;
-          arm1.rotation.x += rotationDirection;
-          arm2.rotation.x += rotationDirection;
-        }
-      break;
-
-      case 5: //dcam
-        var rotAngle = gear.top.rotation.y;
-        if((rotAngle < -Math.PI/2) || (rotAngle > Math.PI/2)){
-          camDelta *= -1;
-        }
-
-        var rotationDirection = 0.01;
-        if((latestGearRotation === -1) && (i > rotationChangedId))
-          rotationDirection *= -1;
-
-        gear.top.rotation.y += camDelta; //should be half rotation
-        gear.left.rotation.x += rotationDirection;
-        gear.right.rotation.x += rotationDirection;
-        gear.cam1.rotation.x += rotationDirection;
-        gear.cam2.rotation.x += rotationDirection;
-
-        if(body){
-          head.rotation.z += camDelta;
-          arm1.rotation.x += rotationDirection;
-          arm2.rotation.x += rotationDirection;
-        }
-      break;
-
-      case 6: //friction gear
-        var rotationDirection = 0.01;
-        if((latestGearRotation === -1) && (i > rotationChangedId))
-          rotationDirection *= -1;
-
-        gear.top.rotation.y += rotationDirection;
-        gear.topGear.rotation.z -= rotationDirection;
-        gear.left.rotation.x += rotationDirection;
-        gear.leftGear.rotation.x += rotationDirection;
-        gear.right.rotation.x -= rotationDirection;
-        gear.rightGear.rotation.x -= rotationDirection;
-
-        if(body){
-          head.rotation.z += rotationDirection;
-          arm1.rotation.x += rotationDirection;
-          arm2.rotation.x -= rotationDirection;
-        }
-      break;
-
-      case 7: //pulley
-        var leverPos = gear.top.position.x + (160 * i); //base position
-        if((leverPos < gear.box.position.x - 10) || (leverPos > gear.box.position.x + 10)) //original pos+=50, w/2=25
-          pulleyDelta *= -1;
-      break;
-
-      case 8: //slider
-        var leverPos = gear.left.position.x;
-        if((leverPos <= gear.box.position.x - 75) || (leverPos >= gear.box.position.x - 25)) //original pos+=50, w/2=25
-        sliderDelta *= -1;
-
-        gear.top.position.x += 0.01; //should change the direction
-        gear.left.position.x += sliderDelta;
-        gear.right.position.x += sliderDelta;
-      break;
-
-      case 9: //double_friction
-        gear.top.position.x += pulleyDelta;
-        gear.left.position.x += pulleyDelta;
-        gear.right.position.x += pulleyDelta;
-        gear.lshaft.position.x += pulleyDelta;
-        gear.rshaft.position.x += pulleyDelta;
-        gear.tshaft.position.x += pulleyDelta;
-      break;
-
-      default:
-    } //EO Switch
-
-  });
 
   render();
   stats.update();
@@ -464,7 +218,7 @@ function update() {
 
 
   ///////************ this is for CSG operations
-  if(meshToReturn != undefined){
+  // if(meshToReturn != undefined){
   //   console.log("meshToReturn loaded: ", meshToReturn)
   //
   //   var cube = CSG.cube();
@@ -476,7 +230,7 @@ function update() {
   //
 
   // console.log(gears[0].topGear);
-  }
+  // }
 
 
   if(gears[1] != undefined){ //at least two boxes for collision detection
