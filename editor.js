@@ -8,8 +8,6 @@ var originObj, originPoint;
 var stlModel;
 var selectedGear;
 
-var latestGearRotation = 1, rotationChanged = 0, rotationChangedId; //positive
-
 //variables for rotation direction simulator
 var newPower, curPower = 'rotary', conflict = false; //should be returned by the first gear
 var collisionOccured = false, collidableMeshList = [];
@@ -112,26 +110,85 @@ function onWindowResize() {
   renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
-function ReturnDesiredInteraction(event){
 
-  selectedInterAction = parseInt(event.target.value);
-  console.log("selected Action: ", selectedInterAction);
-  LoadDesiredInteraction(parseInt(selectedInterAction));
+// see if all event could be handled out of this editor where three.js objects initiated
+function ReturnTargetObjectAugmenting(evt){
 
+  selectedTargetCategory = parseInt(evt.target.value);
+  console.log("selected Action: ", selectedTargetCategory);
+  // LoadTargetObjectAugmented(parseInt(selectedTarget));
+
+  switch (selectedTargetCategory) {
+    case 1: // can and bottle
+      // ReturnPrimitiveShapeOfAugmented(selectedTargetCategory)
+      ; //do something
+      break;
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+      break;
+    default:
+
+  }
   // showDiv();
 }
 
-function LoadDesiredInteraction(selectedInterAction) {
+function ReturnPrimitiveShapeOfAugmented(evt){
+
+  console.log("evt: ", evt.target.value)
+  var primtiveShape = parseInt(evt.target.value);
+  switch (primtiveShape) {
+    case 1: //cylinder
+      console.log('loading cylindrical primitive')
+      //add parameters for the target object primitive
+      var diameter = 10; //default
+      var input = document.createElement("input");
+
+      input.type = "range"
+      input.min = "10";
+      input.max = "50";
+      input.value = diameter;
+      input.class = "slider"
+      input.id = "targetDiameter"
+      // input.onChange = "updateValue(this.value)"
+
+      var textInput = document.createElement("text");
+      textInput.value = '<br/> Target Diameter: ' + diameter;
+
+      document.getElementById('paramlocation').appendChild(document.createElement("br"));
+      document.getElementById('paramlocation').innerHTML = '<br/> Target Diameter: ' + diameter;
+      document.getElementById('paramlocation').appendChild(input);
+
+
+      break;
+    case 2: //Square
+      break;
+    case 3: //Triangle
+      break;
+    case 4: // hexagonal
+      break;
+    default:
+
+  }
+  LoadTargetObjectAugmented(primtiveShape)
+
+}
+
+function LoadTargetObjectAugmented(primtiveShape) {
 
   var material = new THREE.MeshPhongMaterial( { color: 0xA9A9A9, specular: 0x111111, shininess: 200, opacity:0.3 } );
   material.transparent = true
   var targetPath, targetGeometry; //foot, finger, body, palm;
 
-  switch(selectedInterAction){
-    case 1: //footpress
-      targetPath = './assets/left_foot.stl'
+  switch(primtiveShape){
+    case 1: //cylinder
+      targetPath = './assets/soda_can.stl'
       break;
-    case 2: //finger pres
+    case 2: //square
       break;
     case 3: //sit
       console.log("sit pose")
@@ -150,11 +207,11 @@ function LoadDesiredInteraction(selectedInterAction) {
 
     targetGeometry = new THREE.Mesh( geometry, material );
     targetGeometry.rotation.set(-Math.PI/2, 0, Math.PI);
-    
-    if(selectedInterAction == 3){
-      targetGeometry.scale.set(50,50,50);
-      // targetGeometry.rotation.set(-Math.PI/2, 0, 0);
-    }
+
+    // if(selectedInterAction == 3){
+    //   targetGeometry.scale.set(50,50,50);
+    //   // targetGeometry.rotation.set(-Math.PI/2, 0, 0);
+    // }
     scene.add(targetGeometry);
     objects.push(targetGeometry);
   })

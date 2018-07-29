@@ -30,7 +30,7 @@ function handleFileSelect(evt){
     var material = new THREE.MeshPhongMaterial( { color: 0x66ffb3, specular: 0x111111, shininess: 200, opacity:0.0 } );
     var targetObj = new THREE.Mesh( geometry, material );
 
-    targetObj.rotation.set(-Math.PI/2, 0, 0);
+    targetObj.rotation.set(0, 0, -Math.PI/2);
     targetObj.name = "test_name";
 
     scene.add(targetObj);

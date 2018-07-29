@@ -77,28 +77,31 @@
 					<input id="fileInput" type="file" name="files[]" onclick="handleFileSelect"/>
 
 					<br/><br/>
-					<select onchange="ReturnDesiredInteraction(event)">
-							<option value="0">Select Interaction</option>
-							<option value="1">Foot Press</option>
-					    <option value="2">Finger Press</option>
-					    <option value="3">Sit</option>
-					    <option value="4">Palm Grasp</option>
-					    <option value="5">Finger Squeeze</option>
+					<select onchange="ReturnTargetObjectAugmenting(event)">
+							<option value="0">Select Target Objects type</option>
+							<option value="1">Can and Bottles</option>
+					    <option value="2">Long and Thin Objects</option>
+					    <option value="3">Flat Objects</option>
+					    <option value="4">Phones and Tablets</option>
+					    <option value="5">Rolls</option>
+					    <option value="6">Electronics</option>
+					    <option value="7">Cables</option>
+					    <option value="8">Loops</option>
 					</select>
 
 					<br/><br/>
-					<select onchange="ReturnReferenceMaterial(event)">
-							<option value="0">Select Softness Material</option>
-							<option value="25">Rubber band</option>
-					    <option value="15">Art eraser</option>
-					    <option value="20">Mouse pad</option>
-					    <option value="35">Vinyl toys</option>
-					    <option value="40">Pencil tip eraser</option>
+					<!-- This section could appear after seleting the first options -->
+					<select onchange="ReturnPrimitiveShapeOfAugmented(event)">
+							<option value="0">Select Global Shape from Top</option>
+							<option value="1">Circle</option>
+					    <option value="2">Square</option>
+					    <option value="3">Triangle</option>
+					    <option value="4">Polyhedron</option>
 					</select>
 
-					<div id="sliderlocation"></div>
+					<div id="paramlocation"></div>
 
-					<br/><br/>
+					<!-- <br/><br/>
 					<select onchange="ReturnRegionSelection(event)">
 							<option value="0">Select Region</option>
 							<option value="1">By Sphere volume</option>
@@ -112,94 +115,12 @@
 							<option value="1">Binary</option>
 					    <option value="2">Linear</option>
 					    <option value="3">Radial</option>
-					</select>
+					</select> -->
 
 					<div id="gradientlocation"></div>
 			</div>
 
 			<script type="text/javascript">
-
-			function ReturnReferenceMaterial(evt){
-
-					var shoreAScale = evt.target.value;
-					var input = document.createElement("input");
-
-					input.type = "range"
-					input.min = "10";
-					input.max = "50";
-					input.value = shoreAScale;
-					input.class = "slider"
-					input.id = "softnessRange"
-					input.onChange = "updateValue(this.value)"
-
-					var textInput = document.createElement("text");
-					textInput.value = '<br/> Shore A scale: ' + shoreAScale;
-					textInput.id = "shoreAScaleValue"
-
-					document.getElementById('sliderlocation').appendChild(document.createElement("br"));
-					document.getElementById('sliderlocation').innerHTML = '<br/> Shore A scale: ' + shoreAScale;
-					document.getElementById('sliderlocation').appendChild(input);
-
-			}
-
-			function ReturnTypeofGradient(evt){
-				//change gradient type
-				var regtionSelection = parseInt(evt.target.value);
-
-				var newmaterial = new THREE.MeshNormalMaterial({opacity:0.3 });
-
-				// var gradmaterial = new THREE.MeshBasicMaterial( { map: texture, transparent: true } );
-				// var gradientmaterial = generateGradientShaderMaterial(512);
-
-
-				var selectObject= scene.getObjectByName("regionVolume");
-				selectObject.material = newmaterial;
-
-
-				var gradientInput = document.createElement("input");
-
-				gradientInput.type = "range"
-				gradientInput.min = "10";
-				gradientInput.max = "50";
-				gradientInput.value = "25";
-				gradientInput.class = "slider"
-				gradientInput.id = "gradientRange"
-				// gradientInput.onChange = "updateValue(this.value)"
-
-				document.getElementById('sliderlocation').innerHTML = '<br/> Gradient stops: ';
-				document.getElementById('gradientlocation').appendChild(gradientInput);
-
-			}
-
-			function generateGradientShaderMaterial( _resolution ) {
-				var resolution = _resolution || 2; // 512
-				//-
-				var material = new THREE.ShaderMaterial( {
-					uniforms: uniforms,
-					vertexShader: document.getElementById( 'vertexShader' ).textContent,
-					fragmentShader: document.getElementById( 'fragment_shader1' ).textContent
-				} );
-				//-
-				return material;
-			}
-
-
-			$( function() {
-				$( ".draggable" ).draggable({
-					helper: 'clone',
-					cursor: 'move',
-					// tolerance: 'fit',
-					// stack: '.drag',
-					revert: "invalid",
-					refrecshPositions: true,
-				});
-
-				$(".droppable").droppable({
-				  drop: function(event, ui) {
-						console.log(event)
-					}
-				});
-			});
 
 			document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
 
