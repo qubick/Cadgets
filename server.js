@@ -14,8 +14,8 @@ app.get("/test", (req, res) => {
 	res.sendfile('test.html')
 });
 
-app.listen(5000, () => {
-	console.log("example app listening on port 5000")
+app.listen(7000, () => {
+	console.log("Cadgets app listening on port 5000")
 });
 
 app.post("/user/add", function(req, res){
