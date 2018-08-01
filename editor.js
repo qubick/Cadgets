@@ -121,6 +121,7 @@ function ReturnTargetObjectAugmenting(evt){
   switch (selectedTargetCategory) {
     case 1: // can and bottle
       // ReturnPrimitiveShapeOfAugmented(selectedTargetCategory)
+      addSelect('primitiveFamily')
       ; //do something
       break;
     case 2:
@@ -135,6 +136,19 @@ function ReturnTargetObjectAugmenting(evt){
 
   }
   // showDiv();
+}
+
+function addSelect(divname) {
+   var newDiv = document.createElement('div');
+   var html = '<select onchange="ReturnPrimitiveShapeOfAugmented(event)">'
+        +'<option value="0">Select Global Shape from Top</option>'
+       +'<option value="1">Circle</option>'
+       +'<option value="2">Square</option>'
+       +'<option value="3">Triangle</option>'
+       +'<option value="4">Polyhedron</option>'
+       +'</select>';
+   newDiv.innerHTML= html;
+   document.getElementById(divname).appendChild(newDiv);
 }
 
 function ReturnPrimitiveShapeOfAugmented(evt){
