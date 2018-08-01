@@ -2,7 +2,7 @@
 <html lang="en">
 		<head>
 				<meta charset="utf-8">
-				<title>Softness Design UI</title>
+				<title>Cadget</title>
 
 
 				<!-- p5.js for UI elements -->
@@ -90,33 +90,8 @@
 					</select>
 
 					<br/><br/>
-					<!-- This section could appear after seleting the first options -->
 					<div id="primitiveFamily"></div>
-					<!-- <select onchange="ReturnPrimitiveShapeOfAugmented(event)">
-							<option value="0">Select Global Shape from Top</option>
-							<option value="1">Circle</option>
-					    <option value="2">Square</option>
-					    <option value="3">Triangle</option>
-					    <option value="4">Polyhedron</option>
-					</select> -->
-
 					<div id="paramlocation"></div>
-
-					<!-- <br/><br/>
-					<select onchange="ReturnRegionSelection(event)">
-							<option value="0">Select Region</option>
-							<option value="1">By Sphere volume</option>
-							<option value="2">By Cube volume</option>
-							<option value="3">By Slicing in plane</option>
-					</select>
-
-					<br/><br/>
-					<select onchange="ReturnTypeofGradient(event)">
-							<option value="0">Select Gradient Type</option>
-							<option value="1">Binary</option>
-					    <option value="2">Linear</option>
-					    <option value="3">Radial</option>
-					</select> -->
 
 					<div id="gradientlocation"></div>
 			</div>
@@ -124,7 +99,7 @@
 			<script type="text/javascript">
 
 			document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
-
+	
 			</script>
 
 			<input id="fileInput" type="file" name="files[]" style="visibility:hidden" />

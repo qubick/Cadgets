@@ -2,7 +2,9 @@
 
 var modelLoaded = false;
 var settings = {
-  modelScale: 1.0
+  modelScale: 1.0,
+  targetDiameter: 1.0,
+  targetHeight: 1.0
 }
 
 

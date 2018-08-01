@@ -141,7 +141,7 @@ function ReturnTargetObjectAugmenting(evt){
 function addSelect(divname) {
    var newDiv = document.createElement('div');
    var html = '<select onchange="ReturnPrimitiveShapeOfAugmented(event)">'
-        +'<option value="0">Select Global Shape from Top</option>'
+        +'<option value="0">Select Global Shape</option>'
        +'<option value="1">Circle</option>'
        +'<option value="2">Square</option>'
        +'<option value="3">Triangle</option>'
@@ -155,42 +155,15 @@ function ReturnPrimitiveShapeOfAugmented(evt){
 
   console.log("evt: ", evt.target.value)
   var primtiveShape = parseInt(evt.target.value);
-  switch (primtiveShape) {
-    case 1: //cylinder
-      console.log('loading cylindrical primitive')
-      //add parameters for the target object primitive
-      var diameter = 10; //default
-      var input = document.createElement("input");
 
-      input.type = "range"
-      input.min = "10";
-      input.max = "50";
-      input.value = diameter;
-      input.class = "slider"
-      input.id = "targetDiameter"
-      // input.onChange = "updateValue(this.value)"
-
-      var textInput = document.createElement("text");
-      textInput.value = '<br/> Target Diameter: ' + diameter;
-
-      document.getElementById('paramlocation').appendChild(document.createElement("br"));
-      document.getElementById('paramlocation').innerHTML = '<br/> Target Diameter: ' + diameter;
-      document.getElementById('paramlocation').appendChild(input);
-
-
-      break;
-    case 2: //Square
-      break;
-    case 3: //Triangle
-      break;
-    case 4: // hexagonal
-      break;
-    default:
-
-  }
   LoadTargetObjectAugmented(primtiveShape)
 
 }
+
+function changeDiameter(evt){
+  console.log("new function is called");
+}
+
 
 function LoadTargetObjectAugmented(primtiveShape) {
 
@@ -200,18 +173,16 @@ function LoadTargetObjectAugmented(primtiveShape) {
 
   switch(primtiveShape){
     case 1: //cylinder
-      targetPath = './assets/soda_can.stl'
+      targetPath = './assets/cylinder.stl'
       break;
     case 2: //square
+      targetPath = './assets/square.stl'
       break;
-    case 3: //sit
-      console.log("sit pose")
-      targetPath = './assets/sittingman.stl'
+    case 3: //triangle
       break;
-    case 4: //grash by palm
-      targetPath = './assets/palm.stl'
+    case 4: //Polyhedron
       break;
-    case 5: //squeeze by finger
+    case 5:
     default:
   }
 
@@ -221,13 +192,16 @@ function LoadTargetObjectAugmented(primtiveShape) {
 
     targetGeometry = new THREE.Mesh( geometry, material );
     targetGeometry.rotation.set(-Math.PI/2, 0, Math.PI);
-
-    // if(selectedInterAction == 3){
-    //   targetGeometry.scale.set(50,50,50);
-    //   // targetGeometry.rotation.set(-Math.PI/2, 0, 0);
-    // }
     scene.add(targetGeometry);
     objects.push(targetGeometry);
+
+    panel.add(settings, 'targetDiameter', -1, 5, 0.1).onChange(function(){
+      targetGeometry.scale.set(settings.targetDiameter, settings.targetDiameter, settings.targetHeight);
+    });
+
+    panel.add(settings, 'targetHeight', -1, 5, 0.1).onChange(function(){
+      targetGeometry.scale.set(settings.targetDiameter, settings.targetDiameter, settings.targetHeight);
+    });
   })
 
 }
@@ -287,57 +261,4 @@ function render() {
 
 function update() {
 
-
-  ///////************ this is for CSG operations
-  // if(meshToReturn != undefined){
-  //   console.log("meshToReturn loaded: ", meshToReturn)
-  //
-  //   var cube = CSG.cube();
-  //   var geometryThree  = THREE.CSG.fromCSG(cube);
-  //   scene.add(geometryThree);
-  //
-  //   // var geomModel = THREE.CSG.toCSG(meshToReturn);
-  //   // console.log("geom Model: ", geomModel);
-  //
-
-  // console.log(gears[0].topGear);
-  // }
-
-
-  if(gears[1] != undefined){ //at least two boxes for collision detection
-    var originObj = gears[0].box;
-    var originPoint = originObj.position.clone();
-
-    // console.log(originPoint)
-    var emptyMeshList = [];
-    var powerList = [];
-
-    for(var i=1; i<gearIdx; i++){
-      powerList.push(gears[i].powerType);
-
-      emptyMeshList.push(gears[i].left);
-      emptyMeshList.push(gears[i].right);
-      if(gears[i].top != undefined)
-          emptyMeshList.push(gears[i].top);
-    }
-
-    //collision detection
-    for (var vertexIndex = 0; vertexIndex < originObj.geometry.vertices.length; vertexIndex++){
-  		var localVertex = originObj.geometry.vertices[vertexIndex].clone();
-  		var globalVertex = localVertex.applyMatrix4( originObj.matrix );
-  		var directionVector = globalVertex.sub( originObj.position );
-
-  		var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize() );
-  		var collisionResults = ray.intersectObjects( emptyMeshList ); //this should exclude self
-  		if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() ){
-        powerList.forEach((power) => {
-            if((power != originObj.powerType) && changed) {//&& (collisionOccured === false)){
-  			     window.alert("Gearboxes are not compatible in power direction");
-             changed = false;
-           }
-        })
-      }
-  	}
-
-  }
 }
