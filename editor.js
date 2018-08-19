@@ -4,23 +4,9 @@ var container, stats;
 var camera, controls, scene, renderer;
 var objects = [], transformControl;
 var originObj, originPoint;
+var targetGeometry;
 
-var stlModel;
-var selectedGear;
-
-//variables for rotation direction simulator
-var newPower, curPower = 'rotary', conflict = false; //should be returned by the first gear
-var collisionOccured = false, collidableMeshList = [];
-var directionList = [];
-
-
-var body, arm1, arm2, head;
-
-var gears = [], gearsElement, gearIdx = 0;
-//to animate gear mechanisms
-var swingDelta = 0.01, camDelta = 0.01,
-    crankDelta = 0.15, pulleyDelta = 0.25, sliderDelta = 0.25;
-
+const CLEARANCE = 5;
 init();
 animate();
 
@@ -89,9 +75,6 @@ function init() {
 
   });
 
-  if (curPower != newPower)
-    conflict = true; //function to prompt conflict
-
   //geometry operation
   var materialNormal = new THREE.MeshNormalMaterial();
 
@@ -117,7 +100,6 @@ function onWindowResize() {
 function ReturnTargetObjectAugmenting(evt){
 
   selectedTargetCategory = parseInt(evt.target.value);
-  console.log("selected Action: ", selectedTargetCategory);
 
   var newDiv = document.createElement('div');
 
@@ -147,9 +129,7 @@ function ReturnTargetObjectAugmenting(evt){
     imagePosition: "right",
     onSelected: function(evt){
       //evt is value
-      console.log("value: ", evt.selectedData);
-      // AddConstraints();
-      LoadTargetObjectAugmented(evt.selectedData.stl);
+      LoadTargetObjectAugmented(evt.selectedData);
     }
   });
 
@@ -163,77 +143,53 @@ function ReturnTargetObjectAugmenting(evt){
 }
 
 
-// function AddConstraints(divname) {
-//    var newDiv = document.createElement('div');
-//    var html = '<select onchange="ReturnPrimitiveShapeOfAugmented(event)">'
-//         +'<option value="0">Select constraints</option>'
-//        +'<option value="1">Circle</option>'
-//        +'<option value="2">Square</option>'
-//        +'<option value="3">Triangle</option>'
-//        +'<option value="4">Polyhedron</option>'
-//        +'</select>';
-//    newDiv.innerHTML= html;
-//    document.getElementById(divname).appendChild(newDiv);
-// }
+function AddConstraints(constraintsType, targetName) {
 
-function LoadTargetObjectAugmented(stlPath) {
+  var wireframeMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, opacity: 1, wireframe: true } );
+  var targetObj, buffer //buffer geometry
 
-  var material = new THREE.MeshPhongMaterial( { color: 0xA9A9A9, specular: 0x111111, shininess: 200, opacity:0.3 } );
+   if(constraintsType === "diameter"){
+     targetObj = scene.getObjectByName(targetName);
+     var radius = (targetObj.geometry.boundingBox.max.x - targetObj.geometry.boundingBox.min.x) / 2 + CLEARANCE;
+
+     var geometry = new THREE.CylinderGeometry( radius, radius, 20, 32 );
+     buffer = new THREE.Mesh(geometry, wireframeMaterial)
+
+   }
+   // targetObj.add( buffer ); //the buffer should be added to the object
+   scene.add( buffer );
+
+   panel.add(settings, 'errorRange', -1, 5, 0.1).onChange(function(){
+     buffer.scale.set(settings.diameter, settings.diameter, settings.height);
+   });
+
+   // panel.add(settings, 'targetHeight', -1, 5, 0.1).onChange(function(){
+   //   targetGeometry.scale.set(settings.diameter, settings.diameter, settings.height);
+   // });
+}
+
+function LoadTargetObjectAugmented(selectedTarget) {
+
+  var stlPath = selectedTarget.stl;
+  var material = new THREE.MeshPhongMaterial( { color: 0xA9A9A9, specular: 0x111111, shininess: 200, opacity:0.5 } );
   material.transparent = true
-  var targetGeometry;
 
-  console.log(stlPath)
   loader.load( stlPath, ( geometry ) => {
     geometry.center();
 
     targetGeometry = new THREE.Mesh( geometry, material );
-    targetGeometry.rotation.set(-Math.PI/2, 0, Math.PI);
+    targetGeometry.rotation.set(-Math.PI/2, 0, 0);
+    targetGeometry.name = selectedTarget.name;
 
     scene.add(targetGeometry);
     objects.push(targetGeometry);
     transformControl.attach(targetGeometry);
 
-    // panel.add(settings, 'targetDiameter', -1, 5, 0.1).onChange(function(){
-    //   targetGeometry.scale.set(settings.targetDiameter, settings.targetDiameter, settings.targetHeight);
-    // });
-    //
-    // panel.add(settings, 'targetHeight', -1, 5, 0.1).onChange(function(){
-    //   targetGeometry.scale.set(settings.targetDiameter, settings.targetDiameter, settings.targetHeight);
-    // });
+    //once loaded target object, add constraints
+    AddConstraints("diameter", targetGeometry.name);
   })
 
 }
-
-function ReturnRegionSelection(evt) {
-
-    var caseValue = parseInt(evt.target.value)
-    var material = new THREE.MeshBasicMaterial( { color: 0xffffff, opacity: 1, wireframe: true } );
-    switch (caseValue) {
-      case 1: //sphere
-
-        var geometry = new THREE.SphereGeometry(50, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2);
-        var cube = new THREE.Mesh(geometry, material);
-        // scene.add( sphere );
-        break;
-      case 2: //cube
-        var geometry = new THREE.BoxGeometry( 50, 50, 50 );
-        // var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
-        var cube = new THREE.Mesh( geometry, material );
-        break;
-
-      case 3: //level
-
-        break;
-      default:
-
-    }
-    cube.name = "regionVolume";
-
-    scene.add(cube);
-    objects.push(cube);
-
-}
-
 
 function removeEntity(object){
   var selectObject= scene.getObjectByName(object.name);

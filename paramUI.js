@@ -3,7 +3,7 @@
 var modelLoaded = false;
 var settings = {
   modelScale: 1.0,
-  targetDiameter: 1.0,
+  errorRange: 1.0,
   targetHeight: 1.0
 }
 
@@ -37,6 +37,7 @@ function handleFileSelect(evt){
 
     scene.add(targetObj);
     objects.push(targetObj);
+    transformControl.attach(targetObj);
 
     panel.add(settings, 'modelScale', -1, 5, 0.1).onChange(function(){
       targetObj.scale.set(settings.modelScale, settings.modelScale, settings.modelScale);
