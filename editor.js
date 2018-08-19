@@ -143,7 +143,12 @@ function ReturnTargetObjectAugmenting(evt){
     width: 300,
     selectText: "Select target object",
     imagePosition: "right",
-    onSelected: function(event){}
+    onSelected: function(evt){
+      //evt is value
+      console.log("value: ", evt.selectedData);
+      // AddConstraints();
+      LoadTargetObjectAugmented(evt.selectedData.stl);
+    }
   });
 
   $('#longobj').ddslick({
@@ -156,73 +161,41 @@ function ReturnTargetObjectAugmenting(evt){
 }
 
 
+// function AddConstraints(divname) {
+//    var newDiv = document.createElement('div');
+//    var html = '<select onchange="ReturnPrimitiveShapeOfAugmented(event)">'
+//         +'<option value="0">Select constraints</option>'
+//        +'<option value="1">Circle</option>'
+//        +'<option value="2">Square</option>'
+//        +'<option value="3">Triangle</option>'
+//        +'<option value="4">Polyhedron</option>'
+//        +'</select>';
+//    newDiv.innerHTML= html;
+//    document.getElementById(divname).appendChild(newDiv);
+// }
 
-
-function addSelect(divname) {
-   var newDiv = document.createElement('div');
-   var html = '<select onchange="ReturnPrimitiveShapeOfAugmented(event)">'
-        +'<option value="0">Select Global Shape</option>'
-       +'<option value="1">Circle</option>'
-       +'<option value="2">Square</option>'
-       +'<option value="3">Triangle</option>'
-       +'<option value="4">Polyhedron</option>'
-       +'</select>';
-   newDiv.innerHTML= html;
-   document.getElementById(divname).appendChild(newDiv);
-}
-
-function ReturnPrimitiveShapeOfAugmented(evt){
-
-  console.log("evt: ", evt.target.value)
-  var primtiveShape = parseInt(evt.target.value);
-
-  LoadTargetObjectAugmented(primtiveShape)
-
-}
-
-function changeDiameter(evt){
-  console.log("new function is called");
-}
-
-
-function LoadTargetObjectAugmented(primtiveShape) {
+function LoadTargetObjectAugmented(stlPath) {
 
   var material = new THREE.MeshPhongMaterial( { color: 0xA9A9A9, specular: 0x111111, shininess: 200, opacity:0.3 } );
   material.transparent = true
-  var targetPath, targetGeometry; //foot, finger, body, palm;
+  var targetGeometry;
 
-  switch(primtiveShape){
-    case 1: //cylinder
-      targetPath = './assets/cylinder.stl'
-      break;
-    case 2: //square
-      targetPath = './assets/square.stl'
-      break;
-    case 3: //triangle
-      targetPath = './assets/soda_can.stl'
-    break;
-    case 4: //Polyhedron
-      break;
-    case 5:
-    default:
-  }
-
-  console.log(targetPath)
-  loader.load( targetPath, ( geometry ) => {
-    geometry.center()
+  console.log(stlPath)
+  loader.load( stlPath, ( geometry ) => {
+    geometry.center();
 
     targetGeometry = new THREE.Mesh( geometry, material );
     targetGeometry.rotation.set(-Math.PI/2, 0, Math.PI);
     scene.add(targetGeometry);
     objects.push(targetGeometry);
 
-    panel.add(settings, 'targetDiameter', -1, 5, 0.1).onChange(function(){
-      targetGeometry.scale.set(settings.targetDiameter, settings.targetDiameter, settings.targetHeight);
-    });
-
-    panel.add(settings, 'targetHeight', -1, 5, 0.1).onChange(function(){
-      targetGeometry.scale.set(settings.targetDiameter, settings.targetDiameter, settings.targetHeight);
-    });
+    // panel.add(settings, 'targetDiameter', -1, 5, 0.1).onChange(function(){
+    //   targetGeometry.scale.set(settings.targetDiameter, settings.targetDiameter, settings.targetHeight);
+    // });
+    //
+    // panel.add(settings, 'targetHeight', -1, 5, 0.1).onChange(function(){
+    //   targetGeometry.scale.set(settings.targetDiameter, settings.targetDiameter, settings.targetHeight);
+    // });
   })
 
 }
