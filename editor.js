@@ -116,26 +116,16 @@ function ReturnTargetObjectAugmenting(evt){
 
   selectedTargetCategory = parseInt(evt.target.value);
   console.log("selected Action: ", selectedTargetCategory);
-  // LoadTargetObjectAugmented(parseInt(selectedTarget));
+
+  var newDiv = document.createElement('div');
 
   switch (selectedTargetCategory) {
     case 1: // can and bottle
-      // // ReturnPrimitiveShapeOfAugmented(selectedTargetCategory)
-      // addSelect('primitiveFamily')
-
-      var newDiv = document.createElement('div');
-      newDiv.id = "targetObject";
-      document.getElementById('searchTarget').appendChild(newDiv);
-
-      $('#targetObject').ddslick({
-        data: bottle_cans,
-        width: 300,
-        selectText: "Select target object",
-        imagePosition: "right",
-        onSelected: function(event){}
-      });
+      newDiv.id = "bottles";
       break;
-    case 2:
+    case 2: // long and thin objects
+      newDiv.id = "longobj";
+      break;
     case 3:
     case 4:
     case 5:
@@ -146,8 +136,27 @@ function ReturnTargetObjectAugmenting(evt){
     default:
 
   }
-  // showDiv();
+  document.getElementById('searchTarget').appendChild(newDiv);
+
+  $('#bottles').ddslick({
+    data: bottle_cans,
+    width: 300,
+    selectText: "Select target object",
+    imagePosition: "right",
+    onSelected: function(event){}
+  });
+
+  $('#longobj').ddslick({
+    data: long_thin,
+    width: 300,
+    selectText: "Select target object",
+    imagePosition: "right",
+    onSelected: function(event){}
+  });
 }
+
+
+
 
 function addSelect(divname) {
    var newDiv = document.createElement('div');
