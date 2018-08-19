@@ -2,7 +2,7 @@
 
 var container, stats;
 var camera, controls, scene, renderer;
-var objects = [];
+var objects = [], transformControl;
 var originObj, originPoint;
 
 var stlModel;
@@ -71,6 +71,8 @@ function init() {
   controls.staticMoving = true;
   controls.dynamicDampingFactor = 0.3;
 
+  transformControl = new THREE.TransformControls( camera, renderer.domElement );
+  scene.add(transformControl)
 
   var changed = false;
 
@@ -186,8 +188,10 @@ function LoadTargetObjectAugmented(stlPath) {
 
     targetGeometry = new THREE.Mesh( geometry, material );
     targetGeometry.rotation.set(-Math.PI/2, 0, Math.PI);
+
     scene.add(targetGeometry);
     objects.push(targetGeometry);
+    transformControl.attach(targetGeometry);
 
     // panel.add(settings, 'targetDiameter', -1, 5, 0.1).onChange(function(){
     //   targetGeometry.scale.set(settings.targetDiameter, settings.targetDiameter, settings.targetHeight);
