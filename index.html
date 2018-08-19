@@ -17,57 +17,58 @@
 				<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 				<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 				<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+				<script type="text/javascript" src="https://cdn.rawgit.com/prashantchaudhary/ddslick/master/jquery.ddslick.min.js" ></script>
 
 				<script type="javascript/text" src="server.js"></script>
 		</head>
 
 		<style>
-					#gallery {
-						position:fixed;
-						width:200px;
-						height: 100%;
-						top:0;
-						left:0;
-						/* background-color: white; */
-						opacity: 1;
-						/*overflow: auto;*/
-    				overflow-y: scroll !important;
-					}
-					#loadSTL {
-						position: fixed;
-						top: 105px;
-						right: 0;
-						width: 300px;
-						height: 60px;
-						background-color: grey;
-						display: none;
-					}
-					.draggable{
-						width: 150px
-					}
-				</style>
+			#gallery {
+				position:fixed;
+				width:300px;
+				height: 100%;
+				top:0;
+				left:0;
+				/* background-color: white; */
+				opacity: 1;
+				/*overflow: auto;*/
+				overflow-y: scroll !important;
+			}
+			/* #loadSTL {
+				position: fixed;
+				top: 105px;
+				right: 0;
+				width: 300px;
+				height: 60px;
+				background-color: grey;
+				display: none;
+			}
+			.draggable{
+				width: 150px
+			} */
+		</style>
 
 		<body>
 			<div id="container" left="150px" top="0px" class="droppable">
-				<script src="./build/three.js"></script>
-				<script src="./build/csg.js"></script>
-				<script src="./build/ThreeCSG.js"></script>
+				<script src="build/three.js"></script>
+				<script src="build/csg.js"></script>
+				<script src="build/ThreeCSG.js"></script>
 
-				<script src="./js/loaders/DDSLoader.js"></script>
-				<script src="./js/loaders/MTLLoader.js"></script>
-				<script src="./js/loaders/OBJLoader.js"></script>
-				<script src="./js/loaders/STLLoader.js"></script>
-				<script src="./js/Detector.js"></script>
-				<script src="./js/controls/OrbitControls.js"></script>
-				<script src="./js/libs/dat.gui.min.js"></script>
-				<script src="./js/libs/stats.min.js"></script>
-				<script src="./js/controls/DragControls.js"></script>
-				<script src="./js/controls/TrackballControls.js"></script>
-
+				<script src="js/loaders/DDSLoader.js"></script>
+				<script src="js/loaders/MTLLoader.js"></script>
+				<script src="js/loaders/OBJLoader.js"></script>
+				<script src="js/loaders/STLLoader.js"></script>
+				<script src="js/Detector.js"></script>
+				<script src="js/controls/OrbitControls.js"></script>
+				<script src="js/libs/dat.gui.min.js"></script>
+				<script src="js/libs/stats.min.js"></script>
+				<script src="js/controls/DragControls.js"></script>
+				<script src="js/controls/TrackballControls.js"></script>
 
 				<script src="eventHandler.js"></script>
-				<script src="./paramUI.js"></script>
-				<script src="./editor.js"></script>
+				<script src="bottleCans.js"></script>
+				<script src="paramUI.js"></script>
+				<script src="editor.js"></script>
 
 
 				<!-- #gearbox gallery -->
@@ -78,28 +79,25 @@
 
 					<br/><br/>
 					<select onchange="ReturnTargetObjectAugmenting(event)">
-							<option value="0">Select Target Objects type</option>
-							<option value="1">Can and Bottles</option>
-					    <option value="2">Long and Thin Objects</option>
-					    <option value="3">Flat Objects</option>
-					    <option value="4">Phones and Tablets</option>
-					    <option value="5">Rolls</option>
-					    <option value="6">Electronics</option>
-					    <option value="7">Cables</option>
-					    <option value="8">Loops</option>
+						<option value="0">Select Target Objects type</option>
+						<option value="1">Can and Bottles</option>
+				    <option value="2">Long and Thin Objects</option>
+				    <option value="3">Flat Objects</option>
+				    <option value="4">Phones and Tablets</option>
+				    <option value="5">Rolls</option>
+				    <option value="6">Electronics</option>
+				    <option value="7">Cables</option>
+				    <option value="8">Loops</option>
 					</select>
 
 					<br/><br/>
-					<div id="primitiveFamily"></div>
+					<div id="searchTarget"></div>
 					<div id="paramlocation"></div>
-
-					<div id="gradientlocation"></div>
 			</div>
 
 			<script type="text/javascript">
 
-			document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
-	
+				document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
 			</script>
 
 			<input id="fileInput" type="file" name="files[]" style="visibility:hidden" />

@@ -120,9 +120,20 @@ function ReturnTargetObjectAugmenting(evt){
 
   switch (selectedTargetCategory) {
     case 1: // can and bottle
-      // ReturnPrimitiveShapeOfAugmented(selectedTargetCategory)
-      addSelect('primitiveFamily')
-      ; //do something
+      // // ReturnPrimitiveShapeOfAugmented(selectedTargetCategory)
+      // addSelect('primitiveFamily')
+
+      var newDiv = document.createElement('div');
+      newDiv.id = "targetObject";
+      document.getElementById('searchTarget').appendChild(newDiv);
+
+      $('#targetObject').ddslick({
+        data: bottle_cans,
+        width: 300,
+        selectText: "Select target object",
+        imagePosition: "right",
+        onSelected: function(event){}
+      });
       break;
     case 2:
     case 3:
@@ -179,7 +190,8 @@ function LoadTargetObjectAugmented(primtiveShape) {
       targetPath = './assets/square.stl'
       break;
     case 3: //triangle
-      break;
+      targetPath = './assets/soda_can.stl'
+    break;
     case 4: //Polyhedron
       break;
     case 5:
