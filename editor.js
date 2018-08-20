@@ -156,6 +156,12 @@ function AddConstraints(constraintsType, targetName) {
      buffer = new THREE.Mesh(geometry, wireframeMaterial)
 
    }
+   else if (constraintsType === "height"){
+
+   }
+   // console.log("see targetGeometry: ", targetGeometry)
+   buffer.position.set(targetGeometry.position.x, plane.position.y, targetGeometry.position.z);
+
    // targetObj.add( buffer ); //the buffer should be added to the object
    scene.add( buffer );
 
