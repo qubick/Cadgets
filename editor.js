@@ -185,9 +185,17 @@ function LoadTargetObjectAugmented(selectedTarget) {
     objects.push(targetGeometry);
     transformControl.attach(targetGeometry);
 
+    scene.add(plane);
+    transformControl.attach(plane);
+
     //once loaded target object, add constraints
-    AddConstraints("diameter", targetGeometry.name);
-  })
+    panel.add(params, 'addConst').name('Add Constraints');
+    // panel.add(settings, 'movePlane').name('Move Plane');
+    var currPlaneHeight = plane.position.y;
+    panel.add(settings, 'movePlane', -10, 10, 0.1).onChange(function(){
+      plane.position.set(0, settings.movePlane, 0);
+    });
+  }); //end of load stl
 
 }
 

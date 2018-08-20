@@ -4,7 +4,8 @@ var modelLoaded = false;
 var settings = {
   modelScale: 1.0,
   errorRange: 1.0,
-  targetHeight: 1.0
+  targetHeight: 1.0,
+  movePlane: 1.0,
 }
 
 
@@ -16,7 +17,11 @@ var params = {
     document.getElementById('fileInput').click();
     document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
   },
-
+  addConst: function(){
+    //cut in plane
+    cutInPlaneToGet2DVectors();
+    AddConstraints("diameter", targetGeometry.name);
+  },
   export: function(){
     console.log("export stl")
   }
