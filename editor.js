@@ -168,10 +168,6 @@ function AddConstraints(constraintsType, targetName) {
    panel.add(settings, 'errorRange', -1, 5, 0.1).onChange(function(){
      buffer.scale.set(settings.errorRange, 1, settings.errorRange);
    });
-
-   panel.add(settings, 'movePlane', -10, 10, 0.1).onChange(function(){
-     plane.position.set(0, settings.movePlane, 0);
-   });
 }
 
 function LoadTargetObjectAugmented(selectedTarget) {
@@ -198,7 +194,8 @@ function LoadTargetObjectAugmented(selectedTarget) {
     panel.add(params, 'addConst').name('Add Constraints');
 
     var currPlaneHeight = plane.position.y;
-    panel.add(settings, 'movePlane', -10, 10, 0.1).onChange(function(){
+
+    panel.add(settings, 'movePlane', targetGeometry.geometry.boundingBox.min.y, targetGeometry.geometry.boundingBox.max.y, 0.1).onChange(function(){
       plane.position.set(0, settings.movePlane, 0);
     });
   }); //end of load stl
