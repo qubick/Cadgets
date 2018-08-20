@@ -160,12 +160,12 @@ function AddConstraints(constraintsType, targetName) {
    scene.add( buffer );
 
    panel.add(settings, 'errorRange', -1, 5, 0.1).onChange(function(){
-     buffer.scale.set(settings.diameter, settings.diameter, settings.height);
+     buffer.scale.set(settings.errorRange, 1, settings.errorRange);
    });
 
-   // panel.add(settings, 'targetHeight', -1, 5, 0.1).onChange(function(){
-   //   targetGeometry.scale.set(settings.diameter, settings.diameter, settings.height);
-   // });
+   panel.add(settings, 'movePlane', -10, 10, 0.1).onChange(function(){
+     plane.position.set(0, settings.movePlane, 0);
+   });
 }
 
 function LoadTargetObjectAugmented(selectedTarget) {
@@ -190,7 +190,7 @@ function LoadTargetObjectAugmented(selectedTarget) {
 
     //once loaded target object, add constraints
     panel.add(params, 'addConst').name('Add Constraints');
-    // panel.add(settings, 'movePlane').name('Move Plane');
+
     var currPlaneHeight = plane.position.y;
     panel.add(settings, 'movePlane', -10, 10, 0.1).onChange(function(){
       plane.position.set(0, settings.movePlane, 0);
