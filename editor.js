@@ -72,9 +72,8 @@ function init() {
     // moved = true;
   } );
 
-  window.addEventListener( 'mousedown', onDocumentMouseDown, false );
-  projector = new THREE.Projector();
-  document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+  // window.addEventListener( 'mousedown', onDocumentMouseDown, false );
+  // document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 
   window.addEventListener( 'mouseup', function() {
 
@@ -95,20 +94,20 @@ function init() {
 
 
   //temporal to test click surface
-  var faceColorMaterial = new THREE.MeshBasicMaterial(
-	{ color: 0xffffff, vertexColors: THREE.FaceColors } );
-
-	var sphereGeometry = new THREE.SphereGeometry( 80, 32, 16 );
-	for ( var i = 0; i < sphereGeometry.faces.length; i++ )
-	{
-		face = sphereGeometry.faces[ i ];
-		face.color.setRGB( 0, 0, 0.8 * Math.random() + 0.2 );
-	}
-	var sphere = new THREE.Mesh( sphereGeometry, faceColorMaterial );
-	sphere.position.set(0, 50, 0);
-	scene.add(sphere);
-
-	surfaceClickableTargets.push(sphere);
+  // var faceColorMaterial = new THREE.MeshBasicMaterial(
+	// { color: 0xffffff, vertexColors: THREE.FaceColors } );
+  //
+	// var sphereGeometry = new THREE.SphereGeometry( 80, 32, 16 );
+	// for ( var i = 0; i < sphereGeometry.faces.length; i++ )
+	// {
+	// 	face = sphereGeometry.faces[ i ];
+	// 	face.color.setRGB( 0, 0, 0.8 * Math.random() + 0.2 );
+	// }
+	// var sphere = new THREE.Mesh( sphereGeometry, faceColorMaterial );
+	// sphere.position.set(0, 50, 0);
+	// scene.add(sphere);
+  //
+	// surfaceClickableTargets.push(sphere);
 
 } //end of init()
 
@@ -201,23 +200,35 @@ function AddConstraints(constraintsType, targetName) {
 function LoadTargetObjectAugmented(selectedTarget) {
 
   var stlPath = selectedTarget.stl;
-  var material = new THREE.MeshPhongMaterial( { color: 0xA9A9A9, specular: 0x111111, shininess: 200, opacity:0.5 } );
   material.transparent = true
 
   loader.load( stlPath, ( geometry ) => {
     geometry.center();
 
-    targetGeometry = new THREE.Mesh( geometry, material );
+    targetGeometry = new THREE.Mesh( geometry, faceColorMaterial);
     targetGeometry.rotation.set(-Math.PI/2, 0, 0);
     targetGeometry.name = selectedTarget.name;
+    //recover face informations
+    targetGeometry.geometry = new THREE.Geometry().fromBufferGeometry(targetGeometry.geometry);
+    targetGeometry.geometry.computeFaceNormals();
+
+    console.log("see selected face index and face normals: ", targetGeometry.geometry);
+    
+
+    for ( var i = 0; i < targetGeometry.geometry.faces.length; i++ )
+    {
+      face = targetGeometry.geometry.faces[ i ];
+      face.color.setRGB( 0, 0, 0.8);
+    }
 
     scene.add(targetGeometry);
     objects.push(targetGeometry);
     transformControl.attach(targetGeometry);
-
-    scene.add(plane);
-    transformControl.attach(plane);
     surfaceClickableTargets.push(targetGeometry);
+
+    // get rid of planes for now
+    // scene.add(plane);
+    // transformControl.attach(plane);
 
 
     //once loaded target object, add constraints

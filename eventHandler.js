@@ -1,13 +1,12 @@
 $(document).click( (event) => {
-    var text = $(event.target).text();
-    console.log(text);
-    console.log(event.target)
+    // var text = $(event.target).text();
+    // console.log(text);
+    // console.log(event.target)
 
     mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-    console.log("mouse down: ",  mouse.x, mouse.y)
-    //find intersection with the raycaster
 
+    //find intersection with the raycaster
     var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
     projector.unprojectVector( vector, camera );
     var ray = new THREE.Raycaster( camera.position, vector.sub( camera.position).normalize() );
