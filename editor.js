@@ -6,16 +6,22 @@ var objects = [], transformControl;
 var originObj, originPoint;
 var targetGeometry;
 
+var surfaceClickableTargets = [];
+var loder, projector, mouse = { x:0, y:0 };
+
 const CLEARANCE = 5;
 init();
 animate();
 
-var loader = new THREE.STLLoader();
 
 function init() {
 
   // get type of gear and create UI according to it
   createPanel(); //load basic UI
+
+  loader = new THREE.STLLoader();
+  projector = new THREE.Projector();
+
 
   container = document.createElement( 'div' );
   document.body.appendChild( container );
@@ -66,10 +72,9 @@ function init() {
     // moved = true;
   } );
 
-  window.addEventListener( 'mousedown', function () {
-    changed = false;
-
-  }, false );
+  window.addEventListener( 'mousedown', onDocumentMouseDown, false );
+  projector = new THREE.Projector();
+  document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 
   window.addEventListener( 'mouseup', function() {
 
@@ -87,7 +92,25 @@ function init() {
   container.appendChild( stats.dom );
 
   window.addEventListener( 'resize', onWindowResize, false );
-}
+
+
+  //temporal to test click surface
+  var faceColorMaterial = new THREE.MeshBasicMaterial(
+	{ color: 0xffffff, vertexColors: THREE.FaceColors } );
+
+	var sphereGeometry = new THREE.SphereGeometry( 80, 32, 16 );
+	for ( var i = 0; i < sphereGeometry.faces.length; i++ )
+	{
+		face = sphereGeometry.faces[ i ];
+		face.color.setRGB( 0, 0, 0.8 * Math.random() + 0.2 );
+	}
+	var sphere = new THREE.Mesh( sphereGeometry, faceColorMaterial );
+	sphere.position.set(0, 50, 0);
+	scene.add(sphere);
+
+	surfaceClickableTargets.push(sphere);
+
+} //end of init()
 
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -111,10 +134,15 @@ function ReturnTargetObjectAugmenting(evt){
       newDiv.id = "longobj";
       break;
     case 3:
+      break;
     case 4:
+      break;
     case 5:
+      break;
     case 6:
+      break;
     case 7:
+      break;
     case 8:
       break;
     default:
@@ -189,6 +217,8 @@ function LoadTargetObjectAugmented(selectedTarget) {
 
     scene.add(plane);
     transformControl.attach(plane);
+    surfaceClickableTargets.push(targetGeometry);
+
 
     //once loaded target object, add constraints
     panel.add(params, 'addConst').name('Add Constraints');

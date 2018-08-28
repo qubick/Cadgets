@@ -28,6 +28,7 @@ var params = {
 }
 // var modelUI = panel.addFolder( 'Model Scale' );
 
+//this is to load augmenting objects
 function handleFileSelect(evt){
   var files = evt.target.files;
   let targetSTLFile = './assets/' + files[0].name;
@@ -43,6 +44,7 @@ function handleFileSelect(evt){
     scene.add(targetObj);
     objects.push(targetObj);
     transformControl.attach(targetObj);
+    surfaceClickableTargets.push(targetObj);
 
     panel.add(settings, 'modelScale', -1, 5, 0.1).onChange(function(){
       targetObj.scale.set(settings.modelScale, settings.modelScale, settings.modelScale);

@@ -1,11 +1,27 @@
-$(document).click(function(event) {
+$(document).click( (event) => {
     var text = $(event.target).text();
     console.log(text);
     console.log(event.target)
 
-    // if(event.target.id == "softnessRange"){
-    //   document.getElementById('shoreAScaleValue').value = '<br/> Shore A scale: ' + event.target.value;
-    // }
+    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    console.log("mouse down: ",  mouse.x, mouse.y)
+    //find intersection with the raycaster
+
+    var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
+    projector.unprojectVector( vector, camera );
+    var ray = new THREE.Raycaster( camera.position, vector.sub( camera.position).normalize() );
+
+    //create an array containing all objects in the scene with which the ray intersects
+    var intersects = ray.intersectObjects( surfaceClickableTargets );
+
+    if( intersects.length > 0){
+      console.log("Hit @ " + toString(intersects[0].point));
+
+      //change the color of the closest face
+      intersects[0].face.color.setRGB(0.8 * Math.random() + 0.2, 0, 0);
+      intersects[0].object.geometry.colorsNeedUpdate = true;
+    }
 });
 
 window.addEventListener( 'keydown', function( event ){
