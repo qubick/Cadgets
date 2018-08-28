@@ -35,7 +35,7 @@ function handleFileSelect(evt){
 
   loader.load( targetSTLFile, ( geometry ) => {
     geometry.center()
-    var material = new THREE.MeshPhongMaterial( { color: 0x66ffb3, specular: 0x111111, shininess: 200, opacity:0.0 } );
+    // var material = new THREE.MeshPhongMaterial( { color: 0x66ffb3, specular: 0x111111, shininess: 200, opacity:0.0 } );
     var targetObj = new THREE.Mesh( geometry, faceColorMaterial );
 
     targetObj.rotation.set(0, 0, -Math.PI/2);
@@ -43,8 +43,7 @@ function handleFileSelect(evt){
     targetObj.geometry = new THREE.Geometry().fromBufferGeometry(targetObj.geometry);
     targetObj.geometry.computeFaceNormals();
 
-    console.log("see selected face index and face normals: ", targetObj.geometry);
-
+  
     for ( var i = 0; i < targetObj.geometry.faces.length; i++ )
     {
       face = targetObj.geometry.faces[ i ];

@@ -9,19 +9,45 @@ $(document).click( (event) => {
     //find intersection with the raycaster
     var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
     projector.unprojectVector( vector, camera );
-    var ray = new THREE.Raycaster( camera.position, vector.sub( camera.position).normalize() );
+    var ray = new THREE.Raycaster( camera.position, vector.sub(camera.position).normalize() );
 
     //create an array containing all objects in the scene with which the ray intersects
     var intersects = ray.intersectObjects( surfaceClickableTargets );
+    var selectedNormal, selectedFaceIdx, cnt = 0;
 
     if( intersects.length > 0){
-      console.log("Hit @ " + toString(intersects[0].point));
+      console.log("Hit @ ", intersects[0]);
+      // console.log("selected face normal: ", intersects[0].face.normal)
 
       //change the color of the closest face
       intersects[0].face.color.setRGB(0.8 * Math.random() + 0.2, 0, 0);
       intersects[0].object.geometry.colorsNeedUpdate = true;
-    }
+      selectedNormal = intersects[0].face.normal;
+      selectedFaceIdx = intersects[0].faceIndex;
+
+      console.log("intersect face index: ", selectedFaceIdx);
+      //select all objects with same normal;
+      var newFaces = intersects[0].object.geometry.faces; //faces of object with selected triangle
+
+      newFaces.forEach( (it, i) => {
+        if(Math.abs(it.normal.x - selectedNormal.x) < 0.4){
+          if(Math.abs(it.normal.y - selectedNormal.y) < 0.4){
+            if(Math.abs(it.normal.z - selectedNormal.z) < 0.4){
+              if( Math.abs(i - selectedFaceIdx) < 200 ) {
+                cnt += 1;
+                it.color.setRGB(0.8 * Math.random() + 0.2, 0, 0);
+                intersects[0].object.geometry.colorsNeedUpdate = true;
+              }
+            }
+          }
+        }
+      });
+
+      console.log(cnt)
+    } //end of if(intersects.length > 0)
+
 });
+
 
 window.addEventListener( 'keydown', function( event ){
   switch(event.keyCode) {

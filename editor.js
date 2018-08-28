@@ -212,13 +212,13 @@ function LoadTargetObjectAugmented(selectedTarget) {
     targetGeometry.geometry = new THREE.Geometry().fromBufferGeometry(targetGeometry.geometry);
     targetGeometry.geometry.computeFaceNormals();
 
-    console.log("see selected face index and face normals: ", targetGeometry.geometry);
-    
+    // console.log("see selected face index and face normals: ", targetGeometry.geometry);
+    // var normalHelper = new THREE.FaceNormalsHelper(targetGeometry, 2, 0xffffff, 1);
 
     for ( var i = 0; i < targetGeometry.geometry.faces.length; i++ )
     {
       face = targetGeometry.geometry.faces[ i ];
-      face.color.setRGB( 0, 0, 0.8);
+      face.color.setRGB( 0, 0, 0.8 * Math.random() + 0.2);
     }
 
     scene.add(targetGeometry);
