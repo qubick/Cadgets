@@ -13,16 +13,25 @@ $(document).click( (event) => {
 
     //create an array containing all objects in the scene with which the ray intersects
     var intersects = ray.intersectObjects( surfaceClickableTargets );
+<<<<<<< HEAD
     var selectedNormal, selectedFaceIdx, cnt = 0;
 
     if( intersects.length > 0){
       console.log("Hit @ ", intersects[0]);
       // console.log("selected face normal: ", intersects[0].face.normal)
+=======
+    var selectedNormal, cnt = 0;
+
+    if( intersects.length > 0){
+      console.log("Hit @ ", intersects[0]);
+      console.log("selected face normal: ", intersects[0].face.normal)
+>>>>>>> c774a1bb0c4cddde683c2775b91e0ea27a58c62f
 
       //change the color of the closest face
       intersects[0].face.color.setRGB(0.8 * Math.random() + 0.2, 0, 0);
       intersects[0].object.geometry.colorsNeedUpdate = true;
       selectedNormal = intersects[0].face.normal;
+<<<<<<< HEAD
       selectedFaceIdx = intersects[0].faceIndex;
 
       console.log("intersect face index: ", selectedFaceIdx);
@@ -38,6 +47,21 @@ $(document).click( (event) => {
                 it.color.setRGB(0.8 * Math.random() + 0.2, 0, 0);
                 intersects[0].object.geometry.colorsNeedUpdate = true;
               }
+=======
+
+      //select all objects with same normal;
+      var newFaces = intersects[0].object.geometry.faces; //faces of object with selected triangle
+      console.log("# of face: ", newFaces.length)
+      //
+      newFaces.forEach( (it) => {
+        if(Math.abs(it.normal.x - selectedNormal.x) < 0.0001){
+          if(Math.abs(it.normal.y - selectedNormal.y) < 0.0001){
+            if(Math.abs(it.normal.z - selectedNormal.z) < 0.0001){
+              cnt += 1;
+              it.color.setRGB(0.8 * Math.random() + 0.2, 0, 0);
+              intersects[0].object.geometry.colorsNeedUpdate = true;
+              console.log(it.normal)
+>>>>>>> c774a1bb0c4cddde683c2775b91e0ea27a58c62f
             }
           }
         }
