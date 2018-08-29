@@ -1,4 +1,6 @@
 
+var prevPoint;
+
 $(document).click( (event) => {
     // var text = $(event.target).text();
     // console.log(text);
@@ -25,7 +27,10 @@ $(document).click( (event) => {
       scene.add(plane);
       var obj = scene.getObjectByName('augmentingObj');
       if(obj && targetGeometry){
-        obj.position.set(0, intersects[0].point.y, 0);
+        obj.position.set(0, intersects[0].point.y-prevPoint, 0);
+      }
+      else if (obj && !targetGeometry){
+        prevPoint = intersects[0].point.y
       }
       // cutInPlaneToGet2DVectors();
 
