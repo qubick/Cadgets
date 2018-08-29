@@ -8,7 +8,7 @@ var settings = {
   movePlane: 1.0,
 }
 
-
+var augmentingObj;//, augmentingObjLoaded = false;
 
 var panel = new dat.GUI();
 
@@ -36,28 +36,29 @@ function handleFileSelect(evt){
   loader.load( targetSTLFile, ( geometry ) => {
     geometry.center()
     // var material = new THREE.MeshPhongMaterial( { color: 0x66ffb3, specular: 0x111111, shininess: 200, opacity:0.0 } );
-    var targetObj = new THREE.Mesh( geometry, faceColorMaterial );
+    augmentingObj = new THREE.Mesh( geometry, faceColorMaterial );
 
-    targetObj.rotation.set(0, 0, -Math.PI/2);
-    targetObj.name = "test_name";
-    targetObj.geometry = new THREE.Geometry().fromBufferGeometry(targetObj.geometry);
-    targetObj.geometry.computeFaceNormals();
+    augmentingObj.rotation.set(-Math.PI/2, 0, 0);
+    augmentingObj.name = "test_name";
+    augmentingObj.geometry = new THREE.Geometry().fromBufferGeometry(augmentingObj.geometry);
+    augmentingObj.geometry.computeFaceNormals();
 
-  
-    for ( var i = 0; i < targetObj.geometry.faces.length; i++ )
+
+    for ( var i = 0; i < augmentingObj.geometry.faces.length; i++ )
     {
-      face = targetObj.geometry.faces[ i ];
-      face.color.setRGB( 0, 0, 0.8 *Math.random() + 0.2);
+      face = augmentingObj.geometry.faces[ i ];
+      face.color.setRGB( 0, 0.8 *Math.random() + 0.2, 0);
     }
 
     //add to the scene and controller lists
-    scene.add(targetObj);
-    objects.push(targetObj);
-    transformControl.attach(targetObj);
-    surfaceClickableTargets.push(targetObj);
+    augmentingObj.name = 'augmentingObj'
+    scene.add(augmentingObj);
+    // objects.push(augmentingObj);
+    transformControl.attach(augmentingObj);
+    surfaceClickableTargets.push(augmentingObj);
 
     panel.add(settings, 'modelScale', -1, 5, 0.1).onChange(function(){
-      targetObj.scale.set(settings.modelScale, settings.modelScale, settings.modelScale);
+      augmentingObj.scale.set(settings.modelScale, settings.modelScale, settings.modelScale);
     });
 
     panel.add(params, 'export').name('Export Model');

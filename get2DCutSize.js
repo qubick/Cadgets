@@ -28,14 +28,14 @@ var planePointA = new THREE.Vector3()
 
 var lineAB, lineBC, lineCA;
 
-function cutInPlaneToGet2DVectors(){
+function cutInPlaneToGet2DVectors(objGeometry){
 
   plane.localToWorld(planePointA.copy(plane.geometry.vertices[plane.geometry.faces[0].a]));
   plane.localToWorld(planePointB.copy(plane.geometry.vertices[plane.geometry.faces[0].b]));
   plane.localToWorld(planePointC.copy(plane.geometry.vertices[plane.geometry.faces[0].c]));
   mathPlane.setFromCoplanarPoints(planePointA, planePointB, planePointC);
 
-  targetGeometry.geometry = new THREE.Geometry().fromBufferGeometry(targetGeometry.geometry);
+  // targetGeometry.geometry = new THREE.Geometry().fromBufferGeometry(targetGeometry.geometry);
   targetGeometry.geometry.faces.forEach( (face) => {
     targetGeometry.localToWorld(a.copy(targetGeometry.geometry.vertices[face.a]));
     targetGeometry.localToWorld(b.copy(targetGeometry.geometry.vertices[face.b]));
@@ -51,13 +51,11 @@ function cutInPlaneToGet2DVectors(){
     setPointOfIntersection(lineCA, mathPlane);
   });
 
-
   var points = new THREE.Points(pointsOfIntersect, pointMaterial);
   var lines = new THREE.LineSegments(pointsOfIntersect, new THREE.LineBasicMaterial({
     color: 0xffffff
   }));
 
-  scene.add(points);
   scene.add(points);
 }
 

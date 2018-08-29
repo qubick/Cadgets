@@ -92,23 +92,6 @@ function init() {
 
   window.addEventListener( 'resize', onWindowResize, false );
 
-
-  //temporal to test click surface
-  // var faceColorMaterial = new THREE.MeshBasicMaterial(
-	// { color: 0xffffff, vertexColors: THREE.FaceColors } );
-  //
-	// var sphereGeometry = new THREE.SphereGeometry( 80, 32, 16 );
-	// for ( var i = 0; i < sphereGeometry.faces.length; i++ )
-	// {
-	// 	face = sphereGeometry.faces[ i ];
-	// 	face.color.setRGB( 0, 0, 0.8 * Math.random() + 0.2 );
-	// }
-	// var sphere = new THREE.Mesh( sphereGeometry, faceColorMaterial );
-	// sphere.position.set(0, 50, 0);
-	// scene.add(sphere);
-  //
-	// surfaceClickableTargets.push(sphere);
-
 } //end of init()
 
 function onWindowResize() {
@@ -156,7 +139,7 @@ function ReturnTargetObjectAugmenting(evt){
     imagePosition: "right",
     onSelected: function(evt){
       //evt is value
-      LoadTargetObjectAugmented(evt.selectedData);
+      LoadaugmentingObjectAugmented(evt.selectedData);
     }
   });
 
@@ -173,11 +156,11 @@ function ReturnTargetObjectAugmenting(evt){
 function AddConstraints(constraintsType, targetName) {
 
   var wireframeMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, opacity: 1, wireframe: true } );
-  var targetObj, buffer //buffer geometry
+  var augmentingObj, buffer //buffer geometry
 
    if(constraintsType === "diameter"){
-     targetObj = scene.getObjectByName(targetName);
-     var radius = (targetObj.geometry.boundingBox.max.x - targetObj.geometry.boundingBox.min.x) / 2 + CLEARANCE;
+     augmentingObj = scene.getObjectByName(targetName);
+     var radius = (augmentingObj.geometry.boundingBox.max.x - augmentingObj.geometry.boundingBox.min.x) / 2 + CLEARANCE;
 
      var geometry = new THREE.CylinderGeometry( radius, radius, 20, 32 );
      buffer = new THREE.Mesh(geometry, wireframeMaterial)
@@ -189,7 +172,7 @@ function AddConstraints(constraintsType, targetName) {
    // console.log("see targetGeometry: ", targetGeometry)
    buffer.position.set(targetGeometry.position.x, plane.position.y, targetGeometry.position.z);
 
-   // targetObj.add( buffer ); //the buffer should be added to the object
+   // augmentingObj.add( buffer ); //the buffer should be added to the object
    scene.add( buffer );
 
    panel.add(settings, 'errorRange', -1, 5, 0.1).onChange(function(){
@@ -197,7 +180,7 @@ function AddConstraints(constraintsType, targetName) {
    });
 }
 
-function LoadTargetObjectAugmented(selectedTarget) {
+function LoadaugmentingObjectAugmented(selectedTarget) {
 
   var stlPath = selectedTarget.stl;
   material.transparent = true
@@ -212,8 +195,6 @@ function LoadTargetObjectAugmented(selectedTarget) {
     targetGeometry.geometry = new THREE.Geometry().fromBufferGeometry(targetGeometry.geometry);
     targetGeometry.geometry.computeFaceNormals();
 
-    // console.log("see selected face index and face normals: ", targetGeometry.geometry);
-    // var normalHelper = new THREE.FaceNormalsHelper(targetGeometry, 2, 0xffffff, 1);
 
     for ( var i = 0; i < targetGeometry.geometry.faces.length; i++ )
     {
@@ -222,7 +203,7 @@ function LoadTargetObjectAugmented(selectedTarget) {
     }
 
     scene.add(targetGeometry);
-    objects.push(targetGeometry);
+    // objects.push(targetGeometry);
     transformControl.attach(targetGeometry);
     surfaceClickableTargets.push(targetGeometry);
 

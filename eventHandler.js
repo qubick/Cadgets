@@ -1,3 +1,4 @@
+
 $(document).click( (event) => {
     // var text = $(event.target).text();
     // console.log(text);
@@ -17,7 +18,16 @@ $(document).click( (event) => {
 
     if( intersects.length > 0){
       console.log("Hit @ ", intersects[0]);
-      // console.log("selected face normal: ", intersects[0].face.normal)
+      console.log("selected face point: ", intersects[0].point)
+
+
+      plane.position.set(0, intersects[0].point.y, 0);
+      scene.add(plane);
+      var obj = scene.getObjectByName('augmentingObj');
+      if(obj && targetGeometry){
+        obj.position.set(0, intersects[0].point.y, 0);
+      }
+      // cutInPlaneToGet2DVectors();
 
       //change the color of the closest face
       intersects[0].face.color.setRGB(0.8 * Math.random() + 0.2, 0, 0);
@@ -35,7 +45,7 @@ $(document).click( (event) => {
             if(Math.abs(it.normal.z - selectedNormal.z) < 0.4){
               if( Math.abs(i - selectedFaceIdx) < 200 ) {
                 cnt += 1;
-                it.color.setRGB(0.8 * Math.random() + 0.2, 0, 0);
+                it.color.setRGB(1, 0, 0);
                 intersects[0].object.geometry.colorsNeedUpdate = true;
               }
             }

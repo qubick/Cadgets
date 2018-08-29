@@ -12,6 +12,7 @@ var bottle_cans = [
     text: "Baby bottle",
     value: 2,
     selected: false,
+    numDiameter: 3,
     stl: "assets/babybottle.stl",
     imageSrc: "assets/imgs/babybottle.jpg"
   },
@@ -21,7 +22,7 @@ var bottle_cans = [
     value: 100,
     selected: false,
     stl: "assets/cylinder.stl",
-    imageSrc: "assets/imgs/"
+    imageSrc: "assets/imgs/cylinder.jpeg"
   }
 ];
 
