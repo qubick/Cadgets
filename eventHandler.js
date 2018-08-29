@@ -24,10 +24,20 @@ $(document).click( (event) => {
 
 
       plane.position.set(0, intersects[0].point.y, 0);
-      scene.add(plane);
       var obj = scene.getObjectByName('augmentingObj');
       if(obj && targetGeometry){
-        obj.position.set(0, intersects[0].point.y-prevPoint, 0);
+        var posHeight = intersects[0].point.y - prevPoint;
+        obj.position.set(0, posHeight, 0);
+        scene.add(plane);
+
+        // this is manual for bottle handle + baby bottle
+        if( posHeight < -20 ){
+          obj.scale.set(1.2, 1.2, 1.2)
+        } else if (posHeight >= -20 && posHeight < -4){
+          obj.scale.set(0.8, 0.8, 0.8)
+        } else if (posHeight >= 0 ){
+          obj.scale.set(1.2, 1.2, 1.2)
+        }
       }
       else if (obj && !targetGeometry){
         prevPoint = intersects[0].point.y
