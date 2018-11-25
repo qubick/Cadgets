@@ -1,6 +1,6 @@
-
 var prevPoint;
-var selectedMeshList = [], selectedMeshHash = [];
+var selectedMeshes= [];
+let finalMeshes= new Set();
 
 $(document).click( (event) => {
     // var text = $(event.target).text();
@@ -12,14 +12,12 @@ $(document).click( (event) => {
 
     //find intersection with the raycaster
     var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
-    console.log("see what is curr vector: ", vector);
-    console.log("camera position: ", camera.position);
     projector.unprojectVector( vector, camera );
     var ray = new THREE.Raycaster( camera.position, vector.sub(camera.position).normalize() );
 
     //create an array containing all objects in the scene with which the ray intersects
     var intersects = ray.intersectObjects( surfaceClickableTargets );
-    var selectedNormal, selectedFaceIdx;
+    var selectedNormal, selectedFaceIdx, cnt = 0;
 
     if( intersects.length > 0){
       console.log("Hit @ ", intersects[0]);
@@ -58,26 +56,29 @@ $(document).click( (event) => {
       var newFaces = intersects[0].object.geometry.faces; //faces of object with selected triangle
 
       newFaces.forEach( (it, i) => {
-        if(Math.abs(it.normal.x - selectedNormal.x) < 0.4){
-          if(Math.abs(it.normal.y - selectedNormal.y) < 0.4){
-            if(Math.abs(it.normal.z - selectedNormal.z) < 0.4){
+        if(Math.abs(it.normal.x - selectedNormal.x) < 0.2){
+          if(Math.abs(it.normal.y - selectedNormal.y) < 0.2){
+            if(Math.abs(it.normal.z - selectedNormal.z) < 0.2){
               if( Math.abs(i - selectedFaceIdx) < 200 ) {
+                cnt += 1;
                 it.color.setRGB(1, 0, 0);
                 intersects[0].object.geometry.colorsNeedUpdate = true;
-
-                if (selectedMeshHash[i] === undefined )
-                    selectedMeshList.push(i);
-                // console.log("selected meshes: ", i);
               }
+                selectedMeshes.push(i);
             }
           }
         }
+
       });
-
-    } //end of if(intersects.length > 0)
-
-    console.log(selectedMeshList);
+      console.log(cnt);
+      console.log(selectedMeshes);
+      finalMeshes=Array.from(new Set(selectedMeshes));
+      console.log(finalMeshes);
+    //console.log(selectedNormal.x);
+    }
+    //end of if(intersects.length > 0)
 });
+
 
 
 window.addEventListener( 'keydown', function( event ){
