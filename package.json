@@ -49,14 +49,14 @@
   },
   "homepage": "http://threejs.org/",
   "devDependencies": {
+    "electron": "^1.8.8",
     "eslint": "^3.10.1",
     "eslint-config-mdcs": "^4.2.2",
     "google-closure-compiler": "^20160713.0.0",
     "qunitjs": "^2.1.1",
     "rollup": "^0.41.4",
     "rollup-watch": "^3.2.2",
-    "uglify-js": "^2.6.0",
-    "electron": "^1.6.1"
+    "uglify-js": "^2.6.0"
   },
   "dependencies": {
     "express": "^4.16.3",
