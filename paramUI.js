@@ -8,7 +8,7 @@ var settings = {
 
 //information regarding labeling
 var labelingResults = {};
-var augmentationFileName, augmentationTrueFalse, augmentingTargetObj;
+var thingNumber, augmentationFileName, augmentationTrueFalse, augmentingTargetObj;
 
 var augmentingObj;//, augmentingObjLoaded = false;
 
@@ -28,7 +28,7 @@ var params = {
     console.log("save labeling results");
 
     labelingResults.fileName        = augmentationFileName;
-    // labelingResults.thingNo   = thingNumber;
+    labelingResults.thingNo         = thingNumber;
     labelingResults.augmentation    = augmentationTrueFalse;
     labelingResults.targetobject    = augmentingTargetObj;
     labelingResults.interfaceMeshIdx = selectedMeshList.sort();
@@ -62,6 +62,7 @@ function handleFileSelect(evt){
   var files = evt.target.files;
   var targetSTLFile = './assets/' + files[0].name;
   augmentationFileName = files[0].name
+
 
   loader.load( targetSTLFile, ( geometry ) => {
     geometry.center()

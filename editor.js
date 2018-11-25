@@ -100,6 +100,10 @@ function onWindowResize() {
   renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
+function ReturnThingNo(evt){
+    thingNumber = evt.target.value;
+    console.log("thingNumber: ", thingNumber)
+}
 
 function ReturnAugmentationTrueFalse(evt){
     if(parseInt(evt.target.value) === 1){

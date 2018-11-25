@@ -69,11 +69,14 @@
 					<input id="fileInput" type="file" name="files[]" onclick="handleFileSelect"/>
 
 					<br/><br/>
+						Thing No.: <input id="thingNo" type="text" onchange="ReturnThingNo(event)"></input>
+					<br/><br/>
 					<select onchange="ReturnAugmentationTrueFalse(event)">
 						<option value="0">Is this Augmenting Fabrication?</option>
 						<option value="1">Yes</option>
 						<option value="2">No</option>
 					</select>
+					<br/><br/>
 					<select onchange="ReturnTargetObjectAugmenting(event)">
 						<option value="0">What is the target augmented objects?</option>
 						<option value="1">Can and Bottles</option>
