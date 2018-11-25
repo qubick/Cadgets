@@ -69,16 +69,21 @@
 					<input id="fileInput" type="file" name="files[]" onclick="handleFileSelect"/>
 
 					<br/><br/>
+					<select onchange="ReturnAugmentationTrueFalse(event)">
+						<option value="0">Is this Augmenting Fabrication?</option>
+						<option value="1">Yes</option>
+						<option value="2">No</option>
+					</select>
 					<select onchange="ReturnTargetObjectAugmenting(event)">
-						<option value="0">Select Target Objects type</option>
+						<option value="0">What is the target augmented objects?</option>
 						<option value="1">Can and Bottles</option>
-				    <option value="2">Long and Thin Objects</option>
-				    <option value="3">Flat Objects</option>
-				    <option value="4">Phones and Tablets</option>
-				    <option value="5">Rolls</option>
-				    <option value="6">Electronics</option>
-				    <option value="7">Cables</option>
-				    <option value="8">Loops</option>
+					    <option value="2">Long and Thin Objects</option>
+					    <option value="3">Flat Objects</option>
+					    <option value="4">Phones and Tablets</option>
+					    <option value="5">Rolls</option>
+					    <option value="6">Electronics</option>
+					    <option value="7">Cables</option>
+					    <option value="8">Loops</option>
 					</select>
 
 					<br/><br/>
