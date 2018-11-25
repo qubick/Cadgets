@@ -1,5 +1,3 @@
-//should be global
-
 var modelLoaded = false;
 var settings = {
   modelScale: 1.0,
@@ -8,14 +6,13 @@ var settings = {
   movePlane: 1.0,
 }
 
+//information regarding labeling
 var labelingResults = {};
+var augmentationFileName, augmentationTrueFalse, augmentingTargetObj;
 
 var augmentingObj;//, augmentingObjLoaded = false;
 
 var panel = new dat.GUI();
-
-// var labelingFile = "./test.txt";
-// var file = new File(labelingFile);
 
 var params = {
   loadFile: function(){
@@ -30,10 +27,11 @@ var params = {
   save :function() {
     console.log("save labeling results");
 
-    // labelingResults.fileName  = thingFileName;
+    labelingResults.fileName        = augmentationFileName;
     // labelingResults.thingNo   = thingNumber;
-    // labelingResults.augmentation = augmentation;
-    labelingResults.interfaceMeshIdx = selectedMeshList;
+    labelingResults.augmentation    = augmentationTrueFalse;
+    labelingResults.targetobject    = augmentingTargetObj;
+    labelingResults.interfaceMeshIdx = selectedMeshList.sort();
 
     saveString( JSON.stringify(labelingResults), 'testLabeling.json' );
   },
@@ -63,6 +61,7 @@ function save (blob, filename){
 function handleFileSelect(evt){
   var files = evt.target.files;
   var targetSTLFile = './assets/' + files[0].name;
+  augmentationFileName = files[0].name
 
   loader.load( targetSTLFile, ( geometry ) => {
     geometry.center()
