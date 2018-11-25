@@ -101,55 +101,75 @@ function onWindowResize() {
 }
 
 
+function ReturnAugmentationTrueFalse(evt){
+    if(parseInt(evt.target.value) === 1){
+        augmentationTrueFalse = "true"
+    }
+    else{
+        augmentationTrueFalse = "false"
+    }
+}
+
 // see if all event could be handled out of this editor where three.js objects initiated
 function ReturnTargetObjectAugmenting(evt){
 
   selectedTargetCategory = parseInt(evt.target.value);
+
 
   var newDiv = document.createElement('div');
 
   switch (selectedTargetCategory) {
     case 1: // can and bottle
       newDiv.id = "bottles";
+      augmentingTargetObj = "can and bottles"
       break;
     case 2: // long and thin objects
       newDiv.id = "longobj";
+      augmentingTargetObj = "long and thin objects"
       break;
     case 3:
+        augmentingTargetObj = "flat objects"
       break;
     case 4:
+        augmentingTargetObj = "phones and tablets"
       break;
     case 5:
+        augmentingTargetObj = "rolls"
       break;
     case 6:
+        augmentingTargetObj = "electronics"
       break;
     case 7:
+        augmentingTargetObj = "cables"
       break;
     case 8:
+        augmentingTargetObj = "loops"
       break;
     default:
 
   }
-  document.getElementById('searchTarget').appendChild(newDiv);
 
-  $('#bottles').ddslick({
-    data: bottle_cans,
-    width: 300,
-    selectText: "Select target object",
-    imagePosition: "right",
-    onSelected: function(evt){
-      //evt is value
-      LoadaugmentingObjectAugmented(evt.selectedData);
-    }
-  });
-
-  $('#longobj').ddslick({
-    data: long_thin,
-    width: 300,
-    selectText: "Select target object",
-    imagePosition: "right",
-    onSelected: function(event){}
-  });
+  /////******* currently disabled to load low-level categories for simple labeling
+  // document.getElementById('searchTarget').appendChild(newDiv);
+  //
+  // $('#bottles').ddslick({
+  //   data: bottle_cans,
+  //   width: 300,
+  //   selectText: "Select target object",
+  //   imagePosition: "right",
+  //   onSelected: function(evt){
+  //     //evt is value
+  //     LoadaugmentingObjectAugmented(evt.selectedData);
+  //   }
+  // });
+  //
+  // $('#longobj').ddslick({
+  //   data: long_thin,
+  //   width: 300,
+  //   selectText: "Select target object",
+  //   imagePosition: "right",
+  //   onSelected: function(event){}
+  // });
 }
 
 
