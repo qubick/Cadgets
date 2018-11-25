@@ -8,9 +8,14 @@ var settings = {
   movePlane: 1.0,
 }
 
+var labelingResults = {};
+
 var augmentingObj;//, augmentingObjLoaded = false;
 
 var panel = new dat.GUI();
+
+// var labelingFile = "./test.txt";
+// var file = new File(labelingFile);
 
 var params = {
   loadFile: function(){
@@ -22,16 +27,42 @@ var params = {
     cutInPlaneToGet2DVectors();
     AddConstraints("diameter", targetGeometry.name);
   },
+  save :function() {
+    console.log("save labeling results");
+
+    // labelingResults.fileName  = thingFileName;
+    // labelingResults.thingNo   = thingNumber;
+    // labelingResults.augmentation = augmentation;
+    labelingResults.interfaceMeshIdx = selectedMeshList;
+
+    saveString( JSON.stringify(labelingResults), 'testLabeling.json' );
+  },
   export: function(){
     console.log("export stl")
   }
 }
 // var modelUI = panel.addFolder( 'Model Scale' );
 
+//to save labeling results
+function saveString (text, filename ){
+  save ( new Blob( [text], {type: 'text/plain'}), filename );
+}
+
+var link = document.createElement( 'a' );
+link.style.display = 'none';
+document.body.appendChild( link );
+
+
+function save (blob, filename){
+  link.href = URL.createObjectURL( blob );
+  link.download = filename;
+  link.click();
+}
+
 //this is to load augmenting objects
 function handleFileSelect(evt){
   var files = evt.target.files;
-  let targetSTLFile = './assets/' + files[0].name;
+  var targetSTLFile = './assets/' + files[0].name;
 
   loader.load( targetSTLFile, ( geometry ) => {
     geometry.center()
@@ -61,13 +92,13 @@ function handleFileSelect(evt){
       augmentingObj.scale.set(settings.modelScale, settings.modelScale, settings.modelScale);
     });
 
-    panel.add(params, 'export').name('Export Model');
+    // panel.add(params, 'export').name('Export Model');
+    panel.add(params, 'save').name('Save Results');
 
   });
 }
 
 function createPanel(){
-
   // panel.add(params, 'loadFile').name('Load 3D Model');
 
 }
@@ -76,10 +107,4 @@ function createPanel(){
 function removePanel(gearType){
   topBoxUI.close();
   delete topBoxUI;
-}
-
-function showDiv() {
-  // document.getElementById('bbox_shape').style.display = "block";
-  // document.getElementById('loadSTL').style.display = "block";
-  // document.getElementById('model_rotation').style.display = "block";
 }
