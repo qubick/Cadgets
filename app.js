@@ -16,7 +16,7 @@ app.get("/test", (req, res) => {
 });
 
 app.listen(PORT, () => {
-	console.log("Cadgets app listening on port 7000")
+	console.log("Cadgets app listening on port: ", PORT)
 });
 
 app.post("/user/add", function(req, res){
