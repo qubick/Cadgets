@@ -57,6 +57,7 @@ function cutInPlaneToGet2DVectors(objGeometry){
   }));
 
   scene.add(points);
+  scene.add(lines);
 }
 
 function setPointOfIntersection(line, plane){
