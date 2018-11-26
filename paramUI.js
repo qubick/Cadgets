@@ -8,7 +8,7 @@ var settings = {
 
 //information regarding labeling
 var labelingResults = {};
-var thingNumber, augmentationFileName, augmentationTrueFalse, augmentingTargetObj;
+var thingNumber, augmentationTrueFalse, augmentingTargetObj;
 
 var augmentingObj;//, augmentingObjLoaded = false;
 
@@ -27,7 +27,7 @@ var params = {
   save :function() {
     console.log("save labeling results");
 
-    labelingResults.fileName        = augmentationFileName;
+    labelingResults.fileName        = targetSTLFile;
     labelingResults.thingNo         = thingNumber;
     labelingResults.augmentation    = augmentationTrueFalse;
     labelingResults.targetobject    = augmentingTargetObj;
@@ -36,7 +36,7 @@ var params = {
     saveString( JSON.stringify(labelingResults), 'testLabeling.json' );
   },
   export: function(){
-    console.log("export stl")
+    console.log("export stl");
   }
 }
 // var modelUI = panel.addFolder( 'Model Scale' );
@@ -60,10 +60,8 @@ function save (blob, filename){
 //this is to load augmenting objects
 function handleFileSelect(evt){
   var files = evt.target.files;
-  // var targetSTLFile = './assets/' + files[0].name;
-  var targetSTLFile = './' + files[0].name;
-  augmentationFileName = files[0].name;
-
+  var targetSTLFile = './assets' + files[0].name;
+  // augmentationFileName = files[0].name;
 
   loader.load( targetSTLFile, ( geometry ) => {
     geometry.center()
@@ -85,7 +83,7 @@ function handleFileSelect(evt){
     //add to the scene and controller lists
     augmentingObj.name = 'augmentingObj'
     scene.add(augmentingObj);
-    // objects.push(augmentingObj);
+    objects.push(augmentingObj);
     transformControl.attach(augmentingObj);
     surfaceClickableTargets.push(augmentingObj);
 
