@@ -27,6 +27,7 @@
     "extends": "mdcs"
   },
   "scripts": {
+    "start": "node app.js",
     "build": "rollup -c",
     "build-test": "rollup -c test/rollup.unit.config.js",
     "build-uglify": "rollup -c && uglifyjs build/three.js -cm --preamble \"// threejs.org/license\" > build/three.min.js",
@@ -62,5 +63,9 @@
     "express": "^4.16.3",
     "nodemon": "^1.18.3",
     "react-dropzone": "^4.0.0"
+  },
+  "engines":{
+    "node": "8.9.4" ,
+    "npm": "5.7.1"
   }
 }

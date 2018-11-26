@@ -2,6 +2,7 @@ var express = require("express")
 var app = express();
 var fs = require("fs");
 var http = require("http");
+const PORT = process.env.PORT;
 
 var reqIdx = 0;
 
@@ -14,7 +15,7 @@ app.get("/test", (req, res) => {
 	res.sendfile('test.html')
 });
 
-app.listen(7000, () => {
+app.listen(PORT, () => {
 	console.log("Cadgets app listening on port 7000")
 });
 
