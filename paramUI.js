@@ -8,7 +8,7 @@ var settings = {
 
 //information regarding labeling
 var labelingResults = {};
-var thingNumber, augmentationTrueFalse, augmentingTargetObj;
+var thingNumber, augmentationFileName, augmentationTrueFalse, augmentingTargetObj;
 
 var augmentingObj;//, augmentingObjLoaded = false;
 
@@ -61,7 +61,7 @@ function save (blob, filename){
 function handleFileSelect(evt){
   var files = evt.target.files;
   var targetSTLFile = './assets/' + files[0].name;
-  // augmentationFileName = files[0].name;
+  augmentationFileName = files[0].name;
 
   loader.load( targetSTLFile, ( geometry ) => {
     geometry.center()
