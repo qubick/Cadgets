@@ -27,7 +27,7 @@ var params = {
   save :function() {
     console.log("save labeling results");
 
-    labelingResults.fileName        = targetSTLFile;
+    labelingResults.fileName        = augmentationFileName;
     labelingResults.thingNo         = thingNumber;
     labelingResults.augmentation    = augmentationTrueFalse;
     labelingResults.targetobject    = augmentingTargetObj;
