@@ -113,6 +113,38 @@ function ReturnAugmentationTrueFalse(evt){
         augmentationTrueFalse = "false"
     }
 }
+function ReturnTypeOfAugmentation(evt){
+    augmentationTarget = parseInt(evt.target.value);
+
+    switch (augmentationTarget) {
+      case 1:
+        augmentingTargetObj = "stand"
+        break;
+      case 2:
+        augmentingTargetObj = "cover"
+        break;
+      case 3:
+          augmentingTargetObj = "mount"
+        break;
+      case 4:
+          augmentingTargetObj = "handle"
+        break;
+      case 5:
+          augmentingTargetObj = "adapter"
+        break;
+      case 6:
+          augmentingTargetObj = "holder"
+        break;
+      case 7:
+          augmentingTargetObj = "hanger"
+        break;
+      case 8:
+          augmentingTargetObj = "loops"
+        break;
+      default:
+
+    }
+}
 
 // see if all event could be handled out of this editor where three.js objects initiated
 function ReturnTargetObjectAugmenting(evt){

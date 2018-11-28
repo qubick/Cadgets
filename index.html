@@ -70,13 +70,30 @@
 
 					<br/><br/>
 						Thing No.: <input id="thingNo" type="text" onchange="ReturnThingNo(event)"></input>
+
 					<br/><br/>
+					Is this Augmenting Fabrication?<br/>
 					<select onchange="ReturnAugmentationTrueFalse(event)">
 						<option value="0">Is this Augmenting Fabrication?</option>
 						<option value="1">Yes</option>
 						<option value="2">No</option>
 					</select>
+
 					<br/><br/>
+					What is the type of this augmentation?<br/>
+					<select onchange="ReturnTypeOfAugmentation(event)">
+						<option value="0">What is the type of this augmentation?</option>
+						<option value="1">Stand</option>
+					    <option value="2">Cover</option>
+					    <option value="3">Mount</option>
+					    <option value="4">Handle</option>
+					    <option value="5">Adapter</option>
+					    <option value="6">Holder</option>
+					    <option value="7">Hanger</option>
+					</select>
+
+					<br/><br/>
+					What is the target augmented objects?<br/>
 					<select onchange="ReturnTargetObjectAugmenting(event)">
 						<option value="0">What is the target augmented objects?</option>
 						<option value="1">Can and Bottles</option>

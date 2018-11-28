@@ -8,7 +8,7 @@ var settings = {
 
 //information regarding labeling
 var labelingResults = {};
-var thingNumber, augmentationFileName, augmentationTrueFalse, augmentingTargetObj;
+var thingNumber, augmentationFileName, augmentationTrueFalse, augmentationTarget, augmentingTargetObj;
 
 var augmentingObj;//, augmentingObjLoaded = false;
 
