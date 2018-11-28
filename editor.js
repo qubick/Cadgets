@@ -114,9 +114,9 @@ function ReturnAugmentationTrueFalse(evt){
     }
 }
 function ReturnTypeOfAugmentation(evt){
-    augmentationTarget = parseInt(evt.target.value);
+    augmentationType = parseInt(evt.target.value);
 
-    switch (augmentationTarget) {
+    switch (augmentationType) {
       case 1:
         augmentingTargetObj = "stand"
         break;
@@ -140,7 +140,11 @@ function ReturnTypeOfAugmentation(evt){
         break;
       case 8:
           augmentingTargetObj = "loops"
+        break
+      case 9:
+          augmentingTargetObj = "else"
         break;
+
       default:
 
     }
@@ -156,16 +160,16 @@ function ReturnTargetObjectAugmenting(evt){
 
   switch (selectedTargetCategory) {
     case 1: // can and bottle
-      newDiv.id = "bottles";
+      // newDiv.id = "bottles";
       augmentingTargetObj = "can and bottles"
       break;
     case 2: // long and thin objects
-      newDiv.id = "longobj";
+      // newDiv.id = "longobj";
       augmentingTargetObj = "long and thin objects"
       break;
     case 3:
         augmentingTargetObj = "flat objects"
-      break;
+        break;
     case 4:
         augmentingTargetObj = "phones and tablets"
       break;
@@ -181,6 +185,12 @@ function ReturnTargetObjectAugmenting(evt){
     case 8:
         augmentingTargetObj = "loops"
       break;
+    case 9:
+        augmentingTargetObj = "cylinder and sphere"
+      break;
+    case 10:
+        augmentingTargetObj = "else"
+        break;
     default:
 
   }

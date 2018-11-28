@@ -8,9 +8,13 @@ var settings = {
 
 //information regarding labeling
 var labelingResults = {};
-var thingNumber, augmentationFileName, augmentationTrueFalse, augmentationTarget, augmentingTargetObj;
+var thingNumber
+    ,augmentationFileName
+    ,augmentationTrueFalse
+    ,augmentationType
+    ,augmentingTargetObj;
 
-var augmentingObj;//, augmentingObjLoaded = false;
+var augmentingObj;
 
 var panel = new dat.GUI();
 
@@ -30,6 +34,7 @@ var params = {
     labelingResults.fileName        = augmentationFileName;
     labelingResults.thingNo         = thingNumber;
     labelingResults.augmentation    = augmentationTrueFalse;
+    labelingResults.augmentType     = augmentationType;
     labelingResults.targetobject    = augmentingTargetObj;
     labelingResults.interfaceMeshIdx = selectedMeshList.sort();
 
