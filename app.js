@@ -15,13 +15,13 @@ app.get("/test", (req, res) => {
 	res.sendfile('test.html')
 });
 
-// app.listen(PORT, () => {
-// 	console.log("Cadgets app listening on port: ", PORT)
-// });
-
-app.listen(7000, () => {
-	console.log("Cadgets app listening on port: ", 7000)
+app.listen(PORT, () => {
+	console.log("Cadgets app listening on port: ", PORT)
 });
+
+// app.listen(7000, () => {
+// 	console.log("Cadgets app listening on port: ", 7000)
+// });
 
 app.post("/user/add", function(req, res){
 	res.send("OR");
