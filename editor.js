@@ -118,31 +118,31 @@ function ReturnTypeOfAugmentation(evt){
 
     switch (augmentationType) {
       case 1:
-        augmentingTargetObj = "stand"
+        augmentationType = "stand"
         break;
       case 2:
-        augmentingTargetObj = "cover"
+        augmentationType = "cover"
         break;
       case 3:
-          augmentingTargetObj = "mount"
+          augmentationType = "mount"
         break;
       case 4:
-          augmentingTargetObj = "handle"
+          augmentationType = "handle"
         break;
       case 5:
-          augmentingTargetObj = "adapter"
+          augmentationType = "adapter"
         break;
       case 6:
-          augmentingTargetObj = "holder"
+          augmentationType = "holder"
         break;
       case 7:
-          augmentingTargetObj = "hanger"
+          augmentationType = "hanger"
         break;
       case 8:
-          augmentingTargetObj = "loops"
+          augmentationType = "loops"
         break
       case 9:
-          augmentingTargetObj = "else"
+          augmentationType = "else"
         break;
 
       default:
