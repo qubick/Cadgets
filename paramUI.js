@@ -65,7 +65,8 @@ function save (blob, filename){
 //this is to load augmenting objects
 function handleFileSelect(evt){
   var files = evt.target.files;
-  var targetSTLFile = './assets/' + files[0].name;
+  // var targetSTLFile = './assets/' + files[0].name;
+  var targetSTLFile = files[0].name;
   augmentationFileName = files[0].name;
 
   loader.load( targetSTLFile, ( geometry ) => {
