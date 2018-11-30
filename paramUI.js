@@ -69,38 +69,42 @@ function handleFileSelect(evt){
   var targetSTLFile = files[0].name;
   augmentationFileName = files[0].name;
 
-  loader.load( targetSTLFile, ( geometry ) => {
-    geometry.center()
-    // var material = new THREE.MeshPhongMaterial( { color: 0x66ffb3, specular: 0x111111, shininess: 200, opacity:0.0 } );
-    augmentingObj = new THREE.Mesh( geometry, faceColorMaterial );
+  const reader = new FileReader();
+  reader.readAsDataURL(evt.target.files[0]); //read .stl file
+  reader.onload = (file) => {
+      loader.load(file.target.result, ( geometry ) => {
+        geometry.center()
+        // var material = new THREE.MeshPhongMaterial( { color: 0x66ffb3, specular: 0x111111, shininess: 200, opacity:0.0 } );
+        augmentingObj = new THREE.Mesh( geometry, faceColorMaterial );
 
-    augmentingObj.rotation.set(-Math.PI/2, 0, 0);
-    augmentingObj.name = "test_name";
-    augmentingObj.geometry = new THREE.Geometry().fromBufferGeometry(augmentingObj.geometry);
-    augmentingObj.geometry.computeFaceNormals();
+        augmentingObj.rotation.set(-Math.PI/2, 0, 0);
+        augmentingObj.name = "test_name";
+        augmentingObj.geometry = new THREE.Geometry().fromBufferGeometry(augmentingObj.geometry);
+        augmentingObj.geometry.computeFaceNormals();
 
 
-    for ( var i = 0; i < augmentingObj.geometry.faces.length; i++ )
-    {
-      face = augmentingObj.geometry.faces[ i ];
-      face.color.setRGB( 0, 0.8 *Math.random() + 0.2, 0);
-    }
+        for ( var i = 0; i < augmentingObj.geometry.faces.length; i++ )
+        {
+          face = augmentingObj.geometry.faces[ i ];
+          face.color.setRGB( 0, 0.8 *Math.random() + 0.2, 0);
+        }
 
-    //add to the scene and controller lists
-    augmentingObj.name = 'augmentingObj'
-    scene.add(augmentingObj);
-    objects.push(augmentingObj);
-    transformControl.attach(augmentingObj);
-    surfaceClickableTargets.push(augmentingObj);
+        //add to the scene and controller lists
+        augmentingObj.name = 'augmentingObj'
+        scene.add(augmentingObj);
+        objects.push(augmentingObj);
+        transformControl.attach(augmentingObj);
+        surfaceClickableTargets.push(augmentingObj);
 
-    panel.add(settings, 'modelScale', -1, 5, 0.1).onChange(function(){
-      augmentingObj.scale.set(settings.modelScale, settings.modelScale, settings.modelScale);
-    });
+        panel.add(settings, 'modelScale', -1, 5, 0.1).onChange(function(){
+          augmentingObj.scale.set(settings.modelScale, settings.modelScale, settings.modelScale);
+        });
 
-    // panel.add(params, 'export').name('Export Model');
-    panel.add(params, 'save').name('Save Results');
+        // panel.add(params, 'export').name('Export Model');
+        panel.add(params, 'save').name('Save Results');
 
-  });
+      });
+  }
 }
 
 function createPanel(){
