@@ -61,8 +61,7 @@
 
 					<br/><br/><br/>
 					<!-- <input id="fileInput" type="file" name="files[]" onclick="FileSelectFromUserLocal"/> -->
-					<input id="fileInput" type="file" name="files[]" onclick="FileSelectFromServer"/>
-
+					<button onclick="FileSelectFromServer()">Load 3D Object to Label</button>
 					<br/><br/>
 						Thing No.: <input id="thingNo" type="text" onchange="ReturnThingNo(event)"></input>
 
@@ -111,7 +110,8 @@
 
 			<script type="text/javascript">
 
-				document.getElementById('fileInput').addEventListener('change', FileSelectFromServer, false);
+				document.getElementById('fileInput').addEventListener('change', FileSelectFromUserLocal, false);
+				document.getElementById('loadFileBtn').addEventListener('change', FileSelectFromServer, false);
 			</script>
 
 			<input id="fileInput" type="file" name="files[]" style="visibility:hidden" />
