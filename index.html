@@ -5,11 +5,6 @@
 				<title>Cadget</title>
 
 
-				<!-- p5.js for UI elements -->
-				<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.min.js"></script>
-		    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.dom.min.js"></script>
-		    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.sound.min.js"></script>
-
 				<!-- Latest compiled and minified CSS -->
 				<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
 
@@ -19,7 +14,6 @@
 				<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 				<script type="text/javascript" src="https://cdn.rawgit.com/prashantchaudhary/ddslick/master/jquery.ddslick.min.js" ></script>
 
-				<script type="javascript/text" src="server.js"></script>
 		</head>
 
 		<style>
@@ -62,11 +56,12 @@
 				<script src="build/get2DCutSize.js"></script>
 				<script src="build/materials.js"></script>
 
-				<!-- #gearbox gallery -->
+
 				<div id="gallery">
 
 					<br/><br/><br/>
-					<input id="fileInput" type="file" name="files[]" onclick="handleFileSelect"/>
+					<!-- <input id="fileInput" type="file" name="files[]" onclick="FileSelectFromUserLocal"/> -->
+					<input id="fileInput" type="file" name="files[]" onclick="FileSelectFromServer"/>
 
 					<br/><br/>
 						Thing No.: <input id="thingNo" type="text" onchange="ReturnThingNo(event)"></input>
@@ -116,7 +111,7 @@
 
 			<script type="text/javascript">
 
-				document.getElementById('fileInput').addEventListener('change', handleFileSelect, false);
+				document.getElementById('fileInput').addEventListener('change', FileSelectFromServer, false);
 			</script>
 
 			<input id="fileInput" type="file" name="files[]" style="visibility:hidden" />

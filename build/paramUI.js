@@ -56,14 +56,31 @@ link.style.display = 'none';
 document.body.appendChild( link );
 
 
-function save (blob, filename){
+function save( blob, filename ){
   link.href = URL.createObjectURL( blob );
   link.download = filename;
   link.click();
 }
 
-//this is to load augmenting objects
-function handleFileSelect(evt){
+function FileSelectFromServer( evt ){
+    const filePath = '../assets/thing_list.csv';
+    var stlFileList = null;
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("GET", filePath, false);
+    xhr.send();
+    if (xhr.status==200) {
+      stlFileList = xhr.responseText;
+
+      var file = stlFileList.split("\n")
+      console.log("file: ", file[0]) //always read the first file
+    }
+
+}
+
+
+//this is to load augmenting objects from user's choice
+function FileSelectFromUserLocal(evt){
   var files = evt.target.files;
   // var targetSTLFile = './assets/' + files[0].name;
   var targetSTLFile = files[0].name;

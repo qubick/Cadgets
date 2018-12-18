@@ -12,10 +12,9 @@ $(document).click( (event) => {
 
     //find intersection with the raycaster
     var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
-    console.log("see what is curr vector: ", vector);
-    console.log("camera position: ", camera.position);
-    projector.unprojectVector( vector, camera );
     var ray = new THREE.Raycaster( camera.position, vector.sub(camera.position).normalize() );
+
+    projector.unprojectVector( vector, camera );
 
     //create an array containing all objects in the scene with which the ray intersects
     var intersects = ray.intersectObjects( surfaceClickableTargets );
@@ -76,7 +75,7 @@ $(document).click( (event) => {
 
     } //end of if(intersects.length > 0)
 
-    console.log(selectedMeshList);
+    console.log("Selected Mesh list:", selectedMeshList);
 });
 
 
