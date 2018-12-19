@@ -69,7 +69,7 @@ function FileSelectFromServer( evt ){
 
     xhr.open("GET", filePath, false);
     xhr.send();
-    if (xhr.status==200) {
+    if (xhr.status == 200) {
       stlFileList = xhr.responseText;
 
       var files = stlFileList.split("\n")
@@ -80,8 +80,7 @@ function FileSelectFromServer( evt ){
 
       loader.load( targetSTLFile, ( geometry ) => {
         geometry.center()
-        // var material = new THREE.MeshPhongMaterial( { color: 0x66ffb3, specular: 0x111111, shininess: 200, opacity:0.0 } );
-        augmentingObj = new THREE.Mesh( geometry, faceColorMaterial );
+        augmentingObj = new THREE.Mesh( geometry, faceColorMaterial2 );
 
         augmentingObj.rotation.set(-Math.PI/2, 0, 0);
         augmentingObj.name = "test_name";
@@ -89,10 +88,9 @@ function FileSelectFromServer( evt ){
         augmentingObj.geometry.computeFaceNormals();
 
 
-        for ( var i = 0; i < augmentingObj.geometry.faces.length; i++ )
-        {
+        for ( var i = 0; i < augmentingObj.geometry.faces.length; i++ ){
           face = augmentingObj.geometry.faces[ i ];
-          face.color.setRGB( 0, 0.8 *Math.random() + 0.2, 0);
+          face.color.setRGB( 0, 0.8, 0);
         }
 
         //add to the scene and controller lists

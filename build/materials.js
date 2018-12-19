@@ -3,3 +3,6 @@ var material = new THREE.MeshPhongMaterial(
 
 var faceColorMaterial = new THREE.MeshBasicMaterial(
   { color: 0xffffff, vertexColors: THREE.FaceColors, opacity:0.5 } );
+
+  var faceColorMaterial2 = new THREE.MeshPhongMaterial(
+    { color: 0xffffff, vertexColors: THREE.FaceColors, shininess: 200, opacity:0.5 } );
