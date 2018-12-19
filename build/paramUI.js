@@ -91,8 +91,10 @@ function FileSelectFromServer( evt ){
     if (xhr.status == 200) {
       stlFileList = xhr.responseText;
 
-      var files = stlFileList.split("\n")
-      var targetSTLFile = './assets/' + files[0];
+      let files = stlFileList.split("\n")
+      let fileIdx = Math.floor(Math.random() * files.length);
+      console.log("fileIdx: ", fileIdx)
+      var targetSTLFile = './assets/' + files[fileIdx];
 
       console.log("file: ", targetSTLFile) //always read the first file
 

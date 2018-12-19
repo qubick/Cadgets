@@ -48,7 +48,7 @@ $(document).click( (event) => {
       // cutInPlaneToGet2DVectors();
 
       //change the color of the closest face
-      intersects[0].face.color.setRGB(1, 1, 0);
+      intersects[0].face.color.setRGB(1, 0, 1);
       intersects[0].object.geometry.colorsNeedUpdate = true;
       selectedNormal = intersects[0].face.normal;
       selectedFaceIdx = intersects[0].faceIndex;
@@ -58,11 +58,11 @@ $(document).click( (event) => {
       var newFaces = intersects[0].object.geometry.faces; //faces of object with selected triangle
 
       newFaces.forEach( (it, i) => {
-        if(Math.abs(it.normal.x - selectedNormal.x) < 0.2){
-          if(Math.abs(it.normal.y - selectedNormal.y) < 0.2){
-            if(Math.abs(it.normal.z - selectedNormal.z) < 0.2){
+        if(Math.abs(it.normal.x - selectedNormal.x) < 0.3){
+          if(Math.abs(it.normal.y - selectedNormal.y) < 0.3){
+            if(Math.abs(it.normal.z - selectedNormal.z) < 0.3){
               if( Math.abs(i - selectedFaceIdx) < 200 ) {
-                it.color.setRGB(1, 1, 0);
+                it.color.setRGB(1, 0, 1);
                 intersects[0].object.geometry.colorsNeedUpdate = true;
 
                 if (selectedMeshHash[i] === undefined )
