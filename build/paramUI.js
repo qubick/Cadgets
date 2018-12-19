@@ -38,15 +38,34 @@ var params = {
     labelingResults.targetobject    = augmentingTargetObj;
     labelingResults.interfaceMeshIdx = selectedMeshList.sort();
 
+    //this is for saving file to user local by file browser
     saveString( JSON.stringify(labelingResults), 'testLabeling.json' );
+
+    //to save file to server automatically
+    // writeResAsJSON( JSON.stringify(labelingResults) );
   },
   export: function(){
     console.log("export stl");
   }
 }
-// var modelUI = panel.addFolder( 'Model Scale' );
 
-//to save labeling results
+function writeResAsJSON( data ){
+
+    console.log("logging file to server")
+    let filename = "result" //tentative, will fetch real stl file name
+    const writefilePath = '../res/' + filename + '.json';
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("POST", writefilePath, true);
+    xhr.send(data);
+    if (xhr.status == 200) {
+      var result = xhr.responseText;
+  }
+
+  console.log(result)
+}
+
+//to save labeling results to user local
 function saveString (text, filename ){
   save ( new Blob( [text], {type: 'text/plain'}), filename );
 }
@@ -63,11 +82,11 @@ function save( blob, filename ){
 }
 
 function FileSelectFromServer( evt ){
-    const filePath = '../assets/thing_list.csv';
+    const readfilePath = '../assets/thing_list.csv';
     var stlFileList = null;
     var xhr = new XMLHttpRequest();
 
-    xhr.open("GET", filePath, false);
+    xhr.open("GET", readfilePath, false);
     xhr.send();
     if (xhr.status == 200) {
       stlFileList = xhr.responseText;
