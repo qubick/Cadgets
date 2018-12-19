@@ -87,12 +87,6 @@ function FileSelectFromServer( evt ){
         augmentingObj.geometry = new THREE.Geometry().fromBufferGeometry(augmentingObj.geometry);
         augmentingObj.geometry.computeFaceNormals();
 
-
-        for ( var i = 0; i < augmentingObj.geometry.faces.length; i++ ){
-          face = augmentingObj.geometry.faces[ i ];
-          face.color.setRGB( 0, 0.8, 0);
-        }
-
         //add to the scene and controller lists
         augmentingObj.name = 'augmentingObj'
         scene.add(augmentingObj);
@@ -126,19 +120,12 @@ function FileSelectFromUserLocal(evt){
       loader.load(file.target.result, ( geometry ) => {
         geometry.center()
 
-        augmentingObj = new THREE.Mesh( geometry, faceColorMaterial );
+        augmentingObj = new THREE.Mesh( geometry, faceColorMaterial2 );
 
         augmentingObj.rotation.set(-Math.PI/2, 0, 0);
         augmentingObj.name = "test_name";
         augmentingObj.geometry = new THREE.Geometry().fromBufferGeometry(augmentingObj.geometry);
         augmentingObj.geometry.computeFaceNormals();
-
-
-        for ( var i = 0; i < augmentingObj.geometry.faces.length; i++ )
-        {
-          face = augmentingObj.geometry.faces[ i ];
-          face.color.setRGB( 0, 0.8 *Math.random() + 0.2, 0);
-        }
 
         //add to the scene and controller lists
         augmentingObj.name = 'augmentingObj'
