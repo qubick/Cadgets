@@ -62,10 +62,11 @@
   "dependencies": {
     "express": "^4.16.3",
     "nodemon": "^1.18.3",
-    "react-dropzone": "^4.0.0"
+    "react-dropzone": "^4.0.0",
+    "uniq": "^1.0.1"
   },
-  "engines":{
-    "node": "8.9.4" ,
+  "engines": {
+    "node": "8.9.4",
     "npm": "5.7.1"
   }
 }
