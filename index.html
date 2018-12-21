@@ -49,6 +49,7 @@
 				<script src="./js/controls/TrackballControls.js"></script>
 				<script src="./js/renderers/Projector.js"></script>
 
+				<script src="./build/augment_imgs.js"></script>
 				<script src="./build/eventHandler.js"></script>
 				<script src="./build/object_augmented.js"></script>
 				<script src="./build/paramUI.js"></script>
@@ -74,18 +75,7 @@
 					</select>
 
 					<br/><br/>
-					What is the type of this augmentation?<br/>
-					<select onchange="ReturnTypeOfAugmentation(event)">
-						<option value="0">Select your answer</option>
-						<option value="1">Stand</option>
-					    <option value="2">Cover</option>
-					    <option value="3">Mount</option>
-					    <option value="4">Handle</option>
-					    <option value="5">Adapter</option>
-					    <option value="6">Holder</option>
-					    <option value="7">Hanger</option>
-						<option value="8">None of Above</option>
-					</select>
+					<div id="augmentation-type"></div>
 
 					<br/><br/>
 					What is the target augmented objects?<br/>
@@ -112,6 +102,15 @@
 
 				// document.getElementById('fileInput').addEventListener('change', FileSelectFromUserLocal, false);
 				// document.getElementById('loadFileBtn').addEventListener('change', FileSelectFromServer, false);
+				$('#augmentation-type').ddslick({
+					data: augmentation_type,
+					width: 300,
+					selectText: "What is the type of this augmentation?",
+					imagePosition: "right",
+					onSelected: function(evt) {
+						ReturnTypeOfAugmentation(evt.selectedData.value)
+					}
+				});
 			</script>
 
 			<input id="fileInput" type="file" name="files[]" style="visibility:hidden" />

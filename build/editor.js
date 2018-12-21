@@ -216,6 +216,7 @@ function ReturnTargetObjectAugmenting(evt){
   //   imagePosition: "right",
   //   onSelected: function(event){}
   // });
+  
 }
 
 
