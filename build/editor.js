@@ -113,91 +113,26 @@ function ReturnAugmentationTrueFalse(evt){
         augmentationTrueFalse = "false"
     }
 }
-function ReturnTypeOfAugmentation(evt){
-    augmentationType = parseInt(evt.target.value);
-
-    switch (augmentationType) {
-      case 1:
-        augmentationType = "stand"
-        break;
-      case 2:
-        augmentationType = "cover"
-        break;
-      case 3:
-          augmentationType = "mount"
-        break;
-      case 4:
-          augmentationType = "handle"
-        break;
-      case 5:
-          augmentationType = "adapter"
-        break;
-      case 6:
-          augmentationType = "holder"
-        break;
-      case 7:
-          augmentationType = "hanger"
-        break;
-      case 8:
-          augmentationType = "loops"
-        break
-      case 9:
-          augmentationType = "else"
-        break;
-
-      default:
-
-    }
+function ReturnTypeOfAugmentation(selectedData){
+    // augmentationType = parseInt(evt.target.value);
+    augmentationType = selectedData.name;
+    console.log("selected augmentation type: ", augmentationType);
 }
 
 // see if all event could be handled out of this editor where three.js objects initiated
-function ReturnTargetObjectAugmenting(evt){
+function ReturnTargetObjectAugmenting(selectedData){
 
-  selectedTargetCategory = parseInt(evt.target.value);
+  // selectedTargetCategory = parseInt(evt.target.value);
+  augmentingTargetObj = selectedData.name;
 
-
-  var newDiv = document.createElement('div');
-
-  switch (selectedTargetCategory) {
-    case 1: // can and bottle
-      // newDiv.id = "bottles";
-      augmentingTargetObj = "can and bottles"
-      break;
-    case 2: // long and thin objects
-      // newDiv.id = "longobj";
-      augmentingTargetObj = "long and thin objects"
-      break;
-    case 3:
-        augmentingTargetObj = "flat objects"
-        break;
-    case 4:
-        augmentingTargetObj = "phones and tablets"
-      break;
-    case 5:
-        augmentingTargetObj = "rolls"
-      break;
-    case 6:
-        augmentingTargetObj = "electronics"
-      break;
-    case 7:
-        augmentingTargetObj = "cables"
-      break;
-    case 8:
-        augmentingTargetObj = "loops"
-      break;
-    case 9:
-        augmentingTargetObj = "cylinder and sphere"
-      break;
-    case 10:
-        augmentingTargetObj = "else"
-        break;
-    default:
-
-  }
+  // create sub-selection option input
+  // var newDiv = document.createElement('div');
 
   /////******* currently disabled to load low-level categories for simple labeling
   // document.getElementById('searchTarget').appendChild(newDiv);
   //
+
+  // sub-options to appear, based on the highest selecion options
   // $('#bottles').ddslick({
   //   data: bottle_cans,
   //   width: 300,
@@ -216,7 +151,7 @@ function ReturnTargetObjectAugmenting(evt){
   //   imagePosition: "right",
   //   onSelected: function(event){}
   // });
-  
+
 }
 
 

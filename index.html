@@ -78,20 +78,7 @@
 					<div id="augmentation-type"></div>
 
 					<br/><br/>
-					What is the target augmented objects?<br/>
-					<select onchange="ReturnTargetObjectAugmenting(event)">
-						<option value="0">Select your answer</option>
-						<option value="1">Can and Bottles</option>
-					    <option value="2">Long and Thin Objects</option>
-					    <option value="3">Flat Objects</option>
-					    <option value="4">Phones and Tablets</option>
-					    <option value="5">Rolls</option>
-					    <option value="6">Electronics</option>
-					    <option value="7">Cables</option>
-					    <option value="8">Loops</option>
-						<option value="9">Cylinder and Sphere</option>
-						<option value="10">None of Above</option>
-					</select>
+					<div id="augmentation-target"></div>
 
 					<br/><br/>
 					<div id="searchTarget"></div>
@@ -108,7 +95,18 @@
 					selectText: "What is the type of this augmentation?",
 					imagePosition: "right",
 					onSelected: function(evt) {
-						ReturnTypeOfAugmentation(evt.selectedData.value)
+						ReturnTypeOfAugmentation(evt.selectedData)
+					}
+				});
+
+				// document.getElementById('loadFileBtn').addEventListener('change', FileSelectFromServer, false);
+				$('#augmentation-target').ddslick({
+					data: augmentation_target,
+					width: 300,
+					selectText: "What is the target augmented objects?",
+					imagePosition: "right",
+					onSelected: function(evt) {
+						ReturnTargetObjectAugmenting(evt.selectedData)
 					}
 				});
 			</script>
